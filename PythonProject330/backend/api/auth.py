@@ -68,8 +68,38 @@ def get_current_user():
     if not user:
         raise ApiException("用户不存在", 404)
 
-    return success_response("获取成功", user.to_dict())
+    return success_response(msg="获取成功", data=user.to_dict())
 
+# 更新当前用户信息（需要登录）
+@app.route('/api/user/me', methods=['PUT'])
+@jwt_required
+def update_user():
+    user = User.query.get(request.current_user_id)
+
+    if not user:
+        raise ApiException("用户不存在", 404)
+
+    data = request.get_json()
+
+    if data.get('username'):
+        # 检查用户名是否已被使用
+        existing = User.query.filter_by(username=data.get('username')).first()
+        if existing and existing.id != user.id:
+            raise ApiException("用户名已被使用", 400)
+        user.username = data.get('username')
+
+    if data.get('phone'):
+        user.phone = data.get('phone')
+
+    if data.get('email'):
+        user.email = data.get('email')
+
+    if data.get('avatar'):
+        user.avatar = data.get('avatar')
+
+    db.session.commit()
+
+    return success_response(msg="更新成功", data=user.to_dict())
 
 
 
