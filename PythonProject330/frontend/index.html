@@ -1,0 +1,915 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <title>商品商城</title>
+    <style>
+        *{margin:0;padding:0;box-sizing:border-box;font-family:Microsoft YaHei}
+        body{background:#f5f5f5;padding:0;background-image:url('./images/register.jpg');background-size:cover;background-position:center;background-attachment:fixed}
+        .container{max-width:1400px;margin:0 auto;padding:0 20px}
+
+        .auth-container{max-width:400px;margin:100px auto;padding:30px;background:white;border-radius:8px;box-shadow:0 2px 12px rgba(0,0,0,0.1);backdrop-filter:blur(10px);background:rgba(255,255,255,0.95)}
+        .auth-title{text-align:center;font-size:24px;margin-bottom:30px;color:#333}
+        .form-group{margin-bottom:20px}
+        .form-group label{display:block;margin-bottom:8px;color:#606266;font-size:14px}
+        .form-group input{width:100%;padding:12px;border:1px solid #dcdfe6;border-radius:4px;font-size:14px}
+        .form-group input:focus{border-color:#409eff;outline:none}
+        .submit-btn{width:100%;padding:12px;background:#409eff;color:white;border:none;border-radius:4px;font-size:16px;cursor:pointer}
+        .submit-btn:hover{background:#66b1ff}
+        .switch-auth{text-align:center;margin-top:20px;color:#606266}
+        .switch-auth a{color:#409eff;cursor:pointer;text-decoration:none}
+        .error-msg{color:#f56c6c;font-size:12px;margin-top:5px;display:none}
+
+        .main-app{display:none}
+
+        .header{background:white;padding:20px 40px;margin-bottom:0;box-shadow:0 2px 8px rgba(0,0,0,0.1)}
+        .header-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:15px}
+        .brand{font-size:32px;font-weight:bold;color:#2c3e50;text-decoration:none;letter-spacing:2px;cursor:pointer}
+        .brand:hover{color:#409eff}
+        .search-bar{flex:1;max-width:600px;margin:0 40px;display:flex}
+        .search-bar input{flex:1;padding:12px 20px;border:1px solid #ddd;border-radius:25px 0 0 25px;outline:none;font-size:14px}
+        .search-bar button{padding:12px 25px;background:#409eff;color:white;border:none;border-radius:0 25px 25px 0;cursor:pointer;font-size:16px}
+        .search-bar button:hover{background:#66b1ff}
+        .header-actions{display:flex;align-items:center;gap:15px}
+        .cart-icon{cursor:pointer;font-size:24px;padding:8px;position:relative;transition:background 0.3s;background:#f0f0f0;border-radius:50%}
+        .cart-icon:hover{background:#e0e0e0}
+        .cart-badge{position:absolute;top:0;right:0;background:#f56c6c;color:white;font-size:12px;border-radius:50%;width:18px;height:18px;display:flex;align-items:center;justify-content:center;pointer-events:none}
+        .user-avatar{cursor:pointer;font-size:24px;padding:8px;border-radius:50%;transition:background 0.3s;background:#f0f0f0}
+        .user-avatar:hover{background:#e0e0e0}
+        .welcome-text{color:#666;font-size:14px}
+        .logout-btn{padding:8px 16px;background:#f56c6c;color:white;border:none;border-radius:4px;cursor:pointer;font-size:13px}
+        .logout-btn:hover{background:#f78989}
+
+        .category-nav{display:flex;gap:30px;padding:15px 0;border-top:1px solid #eee;justify-content:center}
+        .category-nav a{text-decoration:none;color:#666;font-size:15px;transition:color 0.3s;font-weight:500}
+        .category-nav a:hover,.category-nav a.active{color:#409eff}
+
+        .search{display:none}
+        .category{display:none}
+
+        .home-layout{display:flex;min-height:calc(100vh - 180px);gap:20px;padding:20px 40px}
+        .sidebar{width:220px;flex-shrink:0;background:white;border-radius:12px;padding:20px 0;box-shadow:0 2px 8px rgba(0,0,0,0.1);height:fit-content;position:sticky;top:20px}
+        .sidebar-menu-item{padding:12px 25px;color:#333;cursor:pointer;transition:all 0.3s;border-left:3px solid transparent}
+        .sidebar-menu-item:hover{background:#f5f5f5}
+        .sidebar-menu-item.active{color:#409eff;background:#ecf5ff;border-left-color:#409eff}
+        .sidebar-category-title{padding:15px 25px;font-weight:bold;color:#2c3e50;border-bottom:2px solid #eee;margin-bottom:10px}
+
+        .main-content{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center}
+        .hero-section{width:100%;max-width:1000px;height:500px;border-radius:16px;overflow:hidden;box-shadow:0 4px 20px rgba(0,0,0,0.15);position:relative}
+        .hero-section img{width:100%;height:100%;object-fit:cover}
+
+        .goods-section{display:none;width:100%}
+        .list{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:25px;margin:30px auto;max-width:1200px}
+        .item{background:white;border-radius:12px;overflow:hidden;box-shadow:0 4px 12px rgba(0,0,0,0.1);transition:transform 0.3s}
+        .item:hover{transform:translateY(-5px)}
+        .item img{width:100%;height:220px;object-fit:cover}
+        .info{padding:20px}
+        .name{font-size:17px;margin-bottom:10px;color:#333}
+        .price{color:#f56c6c;font-size:20px;font-weight:bold}
+
+        .cart-actions{margin-top:15px;display:flex;align-items:center;gap:10px}
+        .cart-qty{display:flex;align-items:center;border:1px solid #ddd;border-radius:6px;overflow:hidden}
+        .cart-qty button{width:32px;height:32px;border:none;background:#f5f5f5;cursor:pointer;font-size:18px;color:#333}
+        .cart-qty button:hover{background:#e0e0e0}
+        .cart-qty input{width:40px;height:32px;border:none;text-align:center;font-size:14px;outline:none}
+        .add-cart-btn{flex:1;padding:8px 16px;background:#409eff;color:white;border:none;border-radius:6px;cursor:pointer;font-size:13px;transition:background 0.3s}
+        .add-cart-btn:hover{background:#66b1ff}
+
+        .pagination{display:flex;justify-content:center;gap:8px;margin:30px 0;padding-bottom:30px}
+        .pagination button{padding:8px 16px;border:1px solid #ddd;background:#fff;border-radius:4px;cursor:pointer;transition:all 0.3s}
+        .pagination button.active{background:#409eff;color:white;border-color:#409eff}
+        .pagination button:hover:not(:disabled){background:#f5f5f5}
+        .pagination button:disabled{color:#ccc;cursor:not-allowed}
+        .empty{grid-column:1/-1;text-align:center;padding:60px;color:#999;font-size:16px}
+
+        .cart-page{display:none;max-width:1400px;margin:0 auto;padding:20px 40px}
+        .cart-container{display:flex;gap:30px}
+        .cart-main{flex:1;background:white;border-radius:12px;padding:30px;box-shadow:0 2px 8px rgba(0,0,0,0.1)}
+        .cart-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:25px;padding-bottom:15px;border-bottom:2px solid #f5f5f5}
+        .cart-header h2{font-size:24px;color:#333}
+        .clear-cart-btn{padding:8px 16px;background:#f56c6c;color:white;border:none;border-radius:6px;cursor:pointer;font-size:14px}
+        .clear-cart-btn:hover{background:#f78989}
+        .cart-item{display:flex;align-items:center;padding:20px 0;border-bottom:1px solid #f0f0f0}
+        .cart-item:last-child{border-bottom:none}
+        .cart-item-img{width:100px;height:100px;object-fit:cover;border-radius:8px;margin-right:20px}
+        .cart-item-info{flex:1}
+        .cart-item-name{font-size:16px;font-weight:600;color:#333;margin-bottom:8px}
+        .cart-item-price{color:#f56c6c;font-size:18px;font-weight:bold;margin-bottom:12px}
+        .cart-item-actions{display:flex;align-items:center;gap:20px}
+        .cart-qty-control{display:flex;align-items:center;border:1px solid #ddd;border-radius:6px;overflow:hidden}
+        .cart-qty-control button{width:32px;height:32px;border:none;background:#f5f5f5;cursor:pointer;font-size:16px}
+        .cart-qty-control button:hover{background:#e0e0e0}
+        .cart-qty-control input{width:50px;height:32px;border:none;text-align:center;font-size:14px;outline:none}
+        .remove-btn{color:#f56c6c;cursor:pointer;font-size:14px;text-decoration:underline}
+        .remove-btn:hover{color:#f78989}
+
+        .cart-sidebar{width:350px;flex-shrink:0}
+        .cart-summary{background:white;border-radius:12px;padding:30px;box-shadow:0 2px 8px rgba(0,0,0,0.1);position:sticky;top:20px}
+        .cart-summary h3{font-size:20px;margin-bottom:20px;padding-bottom:15px;border-bottom:1px solid #eee}
+        .summary-row{display:flex;justify-content:space-between;margin-bottom:15px;color:#666}
+        .summary-row.total{font-size:20px;font-weight:bold;color:#333;margin-top:20px;padding-top:15px;border-top:2px solid #eee}
+        .checkout-btn{width:100%;padding:15px;background:#2c3e50;color:white;border:none;border-radius:8px;font-size:16px;cursor:pointer;margin-top:20px;transition:background 0.3s}
+        .checkout-btn:hover{background:#34495e}
+        .empty-cart{text-align:center;padding:60px;color:#999;font-size:16px}
+
+        .profile-page{display:none;max-width:1400px;margin:0 auto;padding:20px 40px}
+        .profile-container{display:flex;gap:30px}
+        .profile-sidebar{width:250px;flex-shrink:0}
+        .profile-menu{background:white;border-radius:8px;padding:20px 0;box-shadow:0 2px 8px rgba(0,0,0,0.1)}
+        .profile-menu-item{padding:12px 25px;color:#333;cursor:pointer;transition:all 0.3s;border-left:3px solid transparent}
+        .profile-menu-item:hover{background:#f5f5f5}
+        .profile-menu-item.active{color:#409eff;background:#ecf5ff;border-left-color:#409eff}
+        .profile-menu-item.danger{color:#f56c6c}
+        .profile-menu-item.danger:hover{background:#fef0f0}
+
+        .profile-main{flex:1}
+        .profile-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:30px;padding:20px 30px;background:white;border-radius:8px;box-shadow:0 2px 8px rgba(0,0,0,0.1)}
+        .profile-header h1{font-size:24px;color:#333}
+        .profile-content{background:white;border-radius:12px;padding:40px;box-shadow:0 2px 12px rgba(0,0,0,0.1)}
+        .profile-avatar-wrapper{position:relative;width:120px;height:120px;margin:0 auto 25px}
+        .profile-avatar{width:120px;height:120px;border-radius:50%;object-fit:cover;box-shadow:0 4px 15px rgba(102,126,234,0.4)}
+        .profile-avatar-edit{position:absolute;bottom:0;right:0;background:#409eff;color:white;border-radius:50%;width:36px;height:36px;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:18px;box-shadow:0 2px 8px rgba(0,0,0,0.2)}
+        .profile-avatar-edit:hover{background:#66b1ff}
+        .profile-name{text-align:center;font-size:28px;margin-bottom:10px;color:#333;font-weight:bold}
+        .profile-info{margin-top:40px;max-width:600px;margin-left:auto;margin-right:auto}
+        .info-row{display:flex;margin-bottom:18px;padding:18px;background:#f8f9fa;border-radius:8px;align-items:center}
+        .info-label{width:100px;color:#666;font-weight:600;font-size:15px}
+        .info-value{flex:1;color:#333;font-size:15px}
+        .back-btn{padding:10px 25px;background:#409eff;color:white;border:none;border-radius:6px;cursor:pointer;font-size:14px;transition:background 0.3s}
+        .back-btn:hover{background:#66b1ff}
+
+        .edit-form .form-group{margin-bottom:20px}
+        .edit-form label{display:block;margin-bottom:8px;color:#606266;font-size:14px;font-weight:500}
+        .edit-form input{width:100%;padding:12px 15px;border:1px solid #dcdfe6;border-radius:6px;font-size:14px;transition:border 0.3s}
+        .edit-form input:focus{border-color:#409eff;outline:none}
+        .form-actions{display:flex;gap:15px;margin-top:30px}
+        .save-btn{padding:12px 35px;background:#2c3e50;color:white;border:none;border-radius:25px;cursor:pointer;font-size:15px;transition:background 0.3s}
+        .save-btn:hover{background:#34495e}
+        .cancel-btn{padding:12px 35px;background:white;color:#666;border:2px solid #ddd;border-radius:25px;cursor:pointer;font-size:15px;transition:all 0.3s}
+        .cancel-btn:hover{background:#f5f5f5;border-color:#ccc}
+    </style>
+</head>
+<body>
+    <div class="auth-container" id="authApp">
+        <div class="auth-title" id="authTitle">用户登录</div>
+        <form id="authForm">
+            <div class="form-group">
+                <label>用户名</label>
+                <input id="username" placeholder="请输入用户名" required type="text">
+            </div>
+            <div class="form-group">
+                <label>密码</label>
+                <input id="password" placeholder="请输入密码" required type="password">
+            </div>
+            <button class="submit-btn" id="submitBtn" type="submit">登录</button>
+            <div class="switch-auth">
+                <span id="switchText">还没有账号？</span>
+                <a href="javascript:void(0)" id="switchLink" onclick="switchAuthMode(); return false;">立即注册</a>
+            </div>
+        </form>
+    </div>
+
+    <div class="main-app" id="mainApp">
+        <div class="header">
+            <div class="header-top">
+                <a class="brand" href="javascript:void(0)" onclick="goToHome(); return false;">YAYA</a>
+                <div class="search-bar">
+                    <input id="name" placeholder="What are you looking for">
+                    <button id="searchBtn">🔍</button>
+                </div>
+                <div class="header-actions">
+                    <span class="cart-icon" onclick="goToCart()" title="购物车">🛒<span class="cart-badge" id="cartBadge">0</span></span>
+                    <span class="user-avatar" onclick="goToProfile()" title="个人中心">👤</span>
+                    <span class="welcome-text" id="welcomeUser"></span>
+                    <button class="logout-btn" onclick="logout()">退出</button>
+                </div>
+            </div>
+            <div class="category-nav" id="categoryNav"></div>
+        </div>
+
+        <div class="home-layout" id="homeLayout">
+            <div class="sidebar">
+                <div class="sidebar-category-title">商品分类</div>
+                <div id="sidebarMenu">
+                    <div class="sidebar-menu-item active" onclick="showAllGoods()">全部商品</div>
+                </div>
+            </div>
+            <div class="main-content">
+                <div class="hero-section" id="heroSection">
+                    <img alt="欢迎图片" onerror="this.src='https://via.placeholder.com/1000x500?text=Welcome+to+YAYA'" src="./images/background.jpg">
+                </div>
+
+                <div class="goods-section" id="goodsSection">
+                    <div class="list" id="list"></div>
+                    <div class="pagination" id="pagination"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="cart-page" id="cartPage">
+        <div class="cart-container">
+            <div class="cart-main">
+                <div class="cart-header">
+                    <h2>我的购物车</h2>
+                    <button class="clear-cart-btn" onclick="clearCart()">清空购物车</button>
+                </div>
+                <div id="cartList"></div>
+            </div>
+            <div class="cart-sidebar">
+                <div class="cart-summary">
+                    <h3>订单总计</h3>
+                    <div class="summary-row">
+                        <span>商品件数</span>
+                        <span id="totalQty">0</span>
+                    </div>
+                    <div class="summary-row total">
+                        <span>合计金额</span>
+                        <span id="totalAmount">¥0.00</span>
+                    </div>
+                    <button class="checkout-btn" onclick="checkout()">去结算</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="profile-page" id="profilePage">
+        <div class="profile-container">
+            <div class="profile-sidebar">
+                <div class="profile-menu">
+                    <div class="profile-menu-item active" onclick="switchProfileTab('profile')">个人资料</div>
+                    <div class="profile-menu-item" onclick="switchProfileTab('orders')">我的订单</div>
+                    <div class="profile-menu-item" onclick="switchProfileTab('address')">收货地址</div>
+                    <div class="profile-menu-item" onclick="switchProfileTab('payment')">支付方式</div>
+                    <div class="profile-menu-item" onclick="switchProfileTab('help')">帮助与联系</div>
+                    <div class="profile-menu-item danger" onclick="logout()">退出登录</div>
+                </div>
+            </div>
+            <div class="profile-main">
+                <div class="profile-header">
+                    <h1>个人中心</h1>
+                    <button class="back-btn" onclick="goBack()">返回商城</button>
+                </div>
+
+                <div class="profile-content" id="profileContent">
+                    <div class="profile-avatar-wrapper">
+                        <img alt="头像" class="profile-avatar" id="viewAvatar" src="">
+                        <div class="profile-avatar-edit" onclick="editAvatar()">📷</div>
+                    </div>
+                    <div class="profile-name" id="viewName"></div>
+                    <div class="profile-info" id="viewInfo">
+                        <div class="info-row">
+                            <span class="info-label">用户名:</span>
+                            <span class="info-value" id="viewUsername"></span>
+                        </div>
+                        <div class="info-row">
+                            <span class="info-label">手机号:</span>
+                            <span class="info-value" id="viewPhone"></span>
+                        </div>
+                        <div class="info-row">
+                            <span class="info-label">邮箱:</span>
+                            <span class="info-value" id="viewEmail"></span>
+                        </div>
+                        <div class="info-row">
+                            <span class="info-label">注册时间:</span>
+                            <span class="info-value" id="viewCreateTime"></span>
+                        </div>
+                        <div class="info-row" style="justify-content:center;margin-top:30px">
+                            <button class="save-btn" onclick="editProfile()">编辑资料</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="profile-content edit-form" id="editContent" style="display:none">
+                    <div class="form-group">
+                        <label>用户名</label>
+                        <input id="editUsername" placeholder="请输入用户名" type="text">
+                    </div>
+                    <div class="form-group">
+                        <label>手机号</label>
+                        <input id="editPhone" placeholder="请输入手机号" type="text">
+                    </div>
+                    <div class="form-group">
+                        <label>邮箱</label>
+                        <input id="editEmail" placeholder="请输入邮箱" type="email">
+                    </div>
+                    <div class="form-actions">
+                        <button class="save-btn" onclick="saveProfile()">保存</button>
+                        <button class="cancel-btn" onclick="cancelEdit()">取消</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+<script>
+    const API = 'http://127.0.0.1:5000'
+    let isLoginMode = true
+    let currentUser = null
+    let page = 1
+    const size = 6
+    let cid = 0
+    let name = ''
+    let isEditing = false
+    let currentProfileData = {}
+    let cartData = []
+
+    function checkLogin() {
+        const token = localStorage.getItem('token')
+        const user = localStorage.getItem('user')
+        if (token && user) {
+            currentUser = JSON.parse(user)
+            showMainApp()
+            loadCartBadge()
+        }
+    }
+
+    function switchAuthMode() {
+        isLoginMode = !isLoginMode
+        const title = document.getElementById('authTitle')
+        const submitBtn = document.getElementById('submitBtn')
+        const switchText = document.getElementById('switchText')
+        const switchLink = document.getElementById('switchLink')
+
+        if (isLoginMode) {
+            title.innerText = '用户登录'
+            submitBtn.innerText = '登录'
+            switchText.innerText = '还没有账号？'
+            switchLink.innerText = '立即注册'
+        } else {
+            title.innerText = '用户注册'
+            submitBtn.innerText = '注册'
+            switchText.innerText = '已有账号？'
+            switchLink.innerText = '立即登录'
+        }
+    }
+
+    function showMainApp() {
+        document.getElementById('authApp').style.display = 'none'
+        document.getElementById('mainApp').style.display = 'block'
+        document.getElementById('profilePage').style.display = 'none'
+        document.getElementById('cartPage').style.display = 'none'
+        document.getElementById('welcomeUser').innerText = currentUser.username
+        loadCategory()
+        loadSidebarCategories()
+        goToHome()
+    }
+
+    function goToHome() {
+        document.getElementById('heroSection').style.display = 'block'
+        document.getElementById('goodsSection').style.display = 'none'
+        page = 1
+        cid = 0
+        name = ''
+        document.getElementById('name').value = ''
+        document.querySelectorAll('.sidebar-menu-item').forEach(item => item.classList.remove('active'))
+        const firstItem = document.querySelector('.sidebar-menu-item')
+        if (firstItem) firstItem.classList.add('active')
+        document.querySelectorAll('.category-nav a').forEach(a => a.classList.remove('active'))
+        const firstNav = document.querySelector('.category-nav a')
+        if (firstNav) firstNav.classList.add('active')
+    }
+
+    function showGoodsList() {
+        document.getElementById('heroSection').style.display = 'none'
+        document.getElementById('goodsSection').style.display = 'block'
+        loadList()
+    }
+
+    function goToCart() {
+        document.getElementById('mainApp').style.display = 'none'
+        document.getElementById('profilePage').style.display = 'none'
+        document.getElementById('cartPage').style.display = 'block'
+        loadCart()
+    }
+
+    async function loadSidebarCategories() {
+        const token = localStorage.getItem('token')
+        const res = await fetch(API + '/api/category', {
+            headers: {'Authorization': token ? `Bearer ${token}` : ''}
+        })
+        const data = await res.json()
+
+        const sidebarMenu = document.getElementById('sidebarMenu')
+        let menuHtml = '<div class="sidebar-menu-item active" onclick="showAllGoods()">全部商品</div>'
+
+        if (data.data && Array.isArray(data.data)) {
+            data.data.forEach(cate => {
+                menuHtml += `<div class="sidebar-menu-item" onclick="filterByCategory(${cate.id}, this)">${cate.name}</div>`
+            })
+        }
+        sidebarMenu.innerHTML = menuHtml
+    }
+
+    function showAllGoods() {
+        cid = 0
+        page = 1
+        document.querySelectorAll('.sidebar-menu-item').forEach(item => item.classList.remove('active'))
+        event.target.classList.add('active')
+        showGoodsList()
+    }
+
+    function filterByCategory(categoryId, element) {
+        cid = categoryId
+        page = 1
+        document.querySelectorAll('.sidebar-menu-item').forEach(item => item.classList.remove('active'))
+        element.classList.add('active')
+        showGoodsList()
+    }
+
+    function logout() {
+        localStorage.removeItem('token')
+        localStorage.removeItem('user')
+        currentUser = null
+        document.getElementById('authApp').style.display = 'block'
+        document.getElementById('mainApp').style.display = 'none'
+        document.getElementById('profilePage').style.display = 'none'
+        document.getElementById('cartPage').style.display = 'none'
+        document.getElementById('authForm').reset()
+        switchAuthMode()
+        if (isLoginMode) {
+            document.getElementById('authTitle').innerText = '用户登录'
+        }
+    }
+
+    async function loadCategory() {
+        const token = localStorage.getItem('token')
+        const res = await fetch(API + '/api/category', {
+            headers: {'Authorization': token ? `Bearer ${token}` : ''}
+        })
+        const data = await res.json()
+
+        const dom = document.getElementById('categoryNav')
+        dom.innerHTML = `<a href="#" class="active" onclick="switchCate(0);return false;">全部</a>`
+
+        if (data.data && Array.isArray(data.data)) {
+            data.data.forEach(cate => {
+                dom.innerHTML += `<a href="#" onclick="switchCate(${cate.id});return false;">${cate.name}</a>`
+            })
+        }
+    }
+
+    async function loadList() {
+        const token = localStorage.getItem('token')
+        const params = new URLSearchParams({page, size, cid, name})
+        const res = await fetch(`${API}/api/goods?${params}`, {
+            headers: {'Authorization': token ? `Bearer ${token}` : ''}
+        })
+        const data = await res.json()
+
+        if (!data || !data.data || !data.data.list) {
+            document.getElementById('list').innerHTML = '<div class="empty">暂无商品</div>'
+            renderPagination(0)
+            return
+        }
+
+        const list = data.data.list
+        const total = data.data.total
+
+        const dom = document.getElementById('list')
+        dom.innerHTML = ''
+
+        if (!list.length) {
+            dom.innerHTML = '<div class="empty">暂无商品</div>'
+            renderPagination(0)
+            return
+        }
+
+        list.forEach(g => {
+            dom.innerHTML += `
+            <div class="item">
+                <img src="${g.img}" alt="${g.name}" onerror="this.src='https://via.placeholder.com/280x220?text=No+Image'">
+                <div class="info">
+                    <div class="name">${g.name}</div>
+                    <div class="price">¥${g.price}</div>
+                    <div class="cart-actions">
+                        <div class="cart-qty">
+                            <button type="button" onclick="changeQty(this, -1)">-</button>
+                            <input type="number" value="1" min="1" data-goods-id="${g.id}">
+                            <button type="button" onclick="changeQty(this, 1)">+</button>
+                        </div>
+                        <button class="add-cart-btn" onclick="addToCart(${g.id})">加入购物车</button>
+                    </div>
+                </div>
+            </div>`
+        })
+        renderPagination(total)
+    }
+
+    function changeQty(btn, delta) {
+        const input = btn.parentElement.querySelector('input')
+        let val = parseInt(input.value) + delta
+        if (val < 1) val = 1
+        input.value = val
+    }
+
+    async function addToCart(goodsId) {
+        const token = localStorage.getItem('token')
+        if (!token) {
+            alert('请先登录')
+            return
+        }
+        const qtyInput = document.querySelector(`input[data-goods-id="${goodsId}"]`)
+        const count = parseInt(qtyInput.value) || 1
+        try {
+            const res = await fetch(API + '/api/cart/add', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                },
+                body: JSON.stringify({goods_id: goodsId, count: count})
+            })
+            const data = await res.json()
+            if (data.code === 200) {
+                alert('加入购物车成功')
+                qtyInput.value = 1
+                loadCartBadge()
+            } else {
+                alert(data.msg || '加入失败')
+            }
+        } catch (error) {
+            console.error('请求错误:', error)
+            alert('网络错误')
+        }
+    }
+
+    async function loadCartBadge() {
+        const token = localStorage.getItem('token')
+        if (!token) return
+        try {
+            const res = await fetch(API + '/api/cart/list', {
+                headers: {'Authorization': `Bearer ${token}`}
+            })
+            const data = await res.json()
+            if (data.code === 200 && data.data) {
+                const count = data.data.reduce((sum, item) => sum + item.count, 0)
+                document.getElementById('cartBadge').innerText = count
+            }
+        } catch (e) { console.error(e) }
+    }
+
+    async function loadCart() {
+        const token = localStorage.getItem('token')
+        try {
+            const res = await fetch(API + '/api/cart/list', {
+                headers: {'Authorization': `Bearer ${token}`}
+            })
+            const data = await res.json()
+            if (data.code === 200) {
+                cartData = data.data || []
+                renderCart()
+            }
+        } catch (e) {
+            alert('加载购物车失败')
+        }
+    }
+
+    function renderCart() {
+        const listDom = document.getElementById('cartList')
+        if (cartData.length === 0) {
+            listDom.innerHTML = '<div class="empty-cart">购物车空空如也，快去选购吧！</div>'
+            document.getElementById('totalQty').innerText = '0'
+            document.getElementById('totalAmount').innerText = '¥0.00'
+            return
+        }
+
+        let html = ''
+        let totalQty = 0
+        let totalAmount = 0
+
+        cartData.forEach(item => {
+            const subtotal = (item.price * item.count).toFixed(2)
+            totalQty += item.count
+            totalAmount += parseFloat(subtotal)
+            html += `
+                <div class="cart-item">
+                    <img src="${item.goods_image || 'https://via.placeholder.com/100'}" class="cart-item-img" alt="${item.goods_name}">
+                    <div class="cart-item-info">
+                        <div class="cart-item-name">${item.goods_name}</div>
+                        <div class="cart-item-price">¥${item.price}</div>
+                        <div class="cart-item-actions">
+                            <div class="cart-qty-control">
+                                <button onclick="updateQty(${item.id}, ${item.count - 1})">-</button>
+                                <input type="number" value="${item.count}" readonly>
+                                <button onclick="updateQty(${item.id}, ${item.count + 1})">+</button>
+                            </div>
+                            <span class="remove-btn" onclick="deleteCartItem(${item.id})">删除</span>
+                        </div>
+                    </div>
+                    <div style="font-weight:bold;font-size:18px;">¥${subtotal}</div>
+                </div>
+            `
+        })
+
+        listDom.innerHTML = html
+        document.getElementById('totalQty').innerText = totalQty
+        document.getElementById('totalAmount').innerText = '¥' + totalAmount.toFixed(2)
+    }
+
+    async function updateQty(cartId, newQty) {
+        if (newQty < 1) return
+        const token = localStorage.getItem('token')
+        try {
+            const res = await fetch(API + '/api/cart/update', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                },
+                body: JSON.stringify({cart_id: cartId, count: newQty})
+            })
+            const data = await res.json()
+            if (data.code === 200) {
+                loadCart()
+                loadCartBadge()
+            } else {
+                alert(data.msg || '更新失败')
+            }
+        } catch (e) {
+            alert('网络错误')
+        }
+    }
+
+    async function deleteCartItem(cartId) {
+        if (!confirm('确定删除该商品吗？')) return
+        const token = localStorage.getItem('token')
+        try {
+            const res = await fetch(API + '/api/cart/delete', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                },
+                body: JSON.stringify({cart_id: cartId})
+            })
+            const data = await res.json()
+            if (data.code === 200) {
+                loadCart()
+                loadCartBadge()
+            } else {
+                alert(data.msg || '删除失败')
+            }
+        } catch (e) {
+            alert('网络错误')
+        }
+    }
+
+    async function clearCart() {
+        if (!confirm('确定清空购物车吗？')) return
+        const token = localStorage.getItem('token')
+        try {
+            const res = await fetch(API + '/api/cart/clear', {
+                method: 'POST',
+                headers: {'Authorization': `Bearer ${token}`}
+            })
+            const data = await res.json()
+            if (data.code === 200) {
+                loadCart()
+                loadCartBadge()
+            } else {
+                alert(data.msg || '清空失败')
+            }
+        } catch (e) {
+            alert('网络错误')
+        }
+    }
+
+    function checkout() {
+        if (cartData.length === 0) {
+            alert('购物车为空，无法结算')
+            return
+        }
+        alert('结算功能开发中...')
+    }
+
+    function switchCate(id) {
+        cid = id
+        page = 1
+        document.querySelectorAll('.category-nav a').forEach(a => a.classList.remove('active'))
+        event.target.classList.add('active')
+
+        document.querySelectorAll('.sidebar-menu-item').forEach(item => item.classList.remove('active'))
+        const sidebarItems = document.querySelectorAll('.sidebar-menu-item')
+        if (id === 0 && sidebarItems.length > 0) {
+            sidebarItems[0].classList.add('active')
+        } else if (sidebarItems.length > id) {
+            sidebarItems[id].classList.add('active')
+        }
+
+        showGoodsList()
+    }
+
+    function renderPagination(total) {
+        const totalPages = Math.ceil(total / size)
+        const dom = document.getElementById('pagination')
+        dom.innerHTML = ''
+
+        if (totalPages === 0) return
+
+        dom.innerHTML += `<button ${page === 1 ? 'disabled' : ''} onclick="changePage(${page - 1})">上一页</button>`
+
+        for (let i = 1; i <= totalPages; i++) {
+            dom.innerHTML += `<button class="${i === page ? 'active' : ''}" onclick="changePage(${i})">${i}</button>`
+        }
+
+        dom.innerHTML += `<button ${page === totalPages ? 'disabled' : ''} onclick="changePage(${page + 1})">下一页</button>`
+    }
+
+    function changePage(p) {
+        if (p < 1 || p > Math.ceil(document.getElementById('pagination').children.length - 2)) return
+        page = p
+        loadList()
+    }
+
+    function switchProfileTab(tab) {
+        document.querySelectorAll('.profile-menu-item').forEach(item => item.classList.remove('active'))
+        event.target.classList.add('active')
+
+        if (tab === 'profile') {
+            document.getElementById('profileContent').style.display = 'block'
+            document.getElementById('editContent').style.display = 'none'
+        } else {
+            alert('功能开发中...')
+        }
+    }
+
+    function goToProfile() {
+        const token = localStorage.getItem('token')
+        const user = localStorage.getItem('user')
+        if (!token || !user) {
+            alert('请先登录')
+            return
+        }
+        loadProfileData()
+        document.getElementById('mainApp').style.display = 'none'
+        document.getElementById('profilePage').style.display = 'block'
+    }
+
+    async function loadProfileData() {
+        const token = localStorage.getItem('token')
+        const res = await fetch(API + '/api/user/me', {
+            headers: {'Authorization': `Bearer ${token}`}
+        })
+        const data = await res.json()
+
+        if (data.code === 200) {
+            currentProfileData = data.data
+            renderProfileView()
+        }
+    }
+
+    function renderProfileView() {
+        document.getElementById('viewAvatar').src = currentProfileData.avatar
+        document.getElementById('viewName').innerText = currentProfileData.username
+        document.getElementById('viewUsername').innerText = currentProfileData.username
+        document.getElementById('viewPhone').innerText = currentProfileData.phone || '未设置'
+        document.getElementById('viewEmail').innerText = currentProfileData.email || '未设置'
+        document.getElementById('viewCreateTime').innerText = currentProfileData.create_time
+    }
+
+    function editAvatar() {
+        const newAvatar = prompt('请输入头像 URL:', currentProfileData.avatar)
+        if (newAvatar && newAvatar !== currentProfileData.avatar) {
+            updateProfile({avatar: newAvatar})
+        }
+    }
+
+    function editProfile() {
+        document.getElementById('editUsername').value = currentProfileData.username
+        document.getElementById('editPhone').value = currentProfileData.phone || ''
+        document.getElementById('editEmail').value = currentProfileData.email || ''
+
+        document.getElementById('profileContent').style.display = 'none'
+        document.getElementById('editContent').style.display = 'block'
+        isEditing = true
+    }
+
+    function cancelEdit() {
+        document.getElementById('editContent').style.display = 'none'
+        document.getElementById('profileContent').style.display = 'block'
+        isEditing = false
+    }
+
+    async function saveProfile() {
+        const username = document.getElementById('editUsername').value.trim()
+        const phone = document.getElementById('editPhone').value.trim()
+        const email = document.getElementById('editEmail').value.trim()
+
+        if (!username) {
+            alert('用户名不能为空')
+            return
+        }
+
+        const updateData = {username, phone, email}
+
+        const token = localStorage.getItem('token')
+        const res = await fetch(API + '/api/user/me', {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+            },
+            body: JSON.stringify(updateData)
+        })
+        const data = await res.json()
+
+        if (data.code === 200) {
+            alert('保存成功')
+            currentProfileData = data.data
+            localStorage.setItem('user', JSON.stringify(data.data))
+            renderProfileView()
+            cancelEdit()
+        } else {
+            alert(data.msg || '保存失败')
+        }
+    }
+
+    async function updateProfile(updateData) {
+        const token = localStorage.getItem('token')
+        const res = await fetch(API + '/api/user/me', {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+            },
+            body: JSON.stringify(updateData)
+        })
+        const data = await res.json()
+
+        if (data.code === 200) {
+            alert('更新成功')
+            currentProfileData = data.data
+            localStorage.setItem('user', JSON.stringify(data.data))
+            renderProfileView()
+        } else {
+            alert(data.msg || '更新失败')
+        }
+    }
+
+    function goBack() {
+        document.getElementById('profilePage').style.display = 'none'
+        document.getElementById('mainApp').style.display = 'block'
+    }
+
+    document.getElementById('authForm').addEventListener('submit', async (e) => {
+        e.preventDefault()
+        const username = document.getElementById('username').value.trim()
+        const password = document.getElementById('password').value
+
+        if (!username || !password) {
+            alert('用户名和密码不能为空')
+            return
+        }
+
+        try {
+            if (isLoginMode) {
+                const res = await fetch(API + '/api/login', {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({username, password})
+                })
+                const data = await res.json()
+
+                if (data.code === 200) {
+                    localStorage.setItem('token', data.data.token)
+                    const user = data.data.user
+                    localStorage.setItem('user', JSON.stringify(user))
+                    currentUser = user
+                    showMainApp()
+                    loadCartBadge()
+                } else {
+                    alert(data.msg || '登录失败')
+                }
+            } else {
+                const res = await fetch(API + '/api/register', {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({username, password})
+                })
+                const data = await res.json()
+
+                if (data.code === 200) {
+                    alert('注册成功，请登录')
+                    switchAuthMode()
+                } else {
+                    alert(data.msg || '注册失败')
+                }
+            }
+        } catch (error) {
+            console.error('请求错误:', error)
+            alert('网络错误，请检查后端服务是否启动')
+        }
+    })
+
+    document.getElementById('searchBtn').onclick = () => {
+        name = document.getElementById('name').value.trim()
+        page = 1
+        loadList()
+    }
+
+    checkLogin()
+</script>
+</body>
+</html>
