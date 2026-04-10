@@ -11,7 +11,7 @@ def jwt_required(f):
     @wraps(f)
     def decorated_function(*args, **kwargs):
         from backend.models import User
-        # 从请求体获取token
+        # 从请求头获取token
         token = request.headers.get('Authorization')
         if not token:
             return jsonify({

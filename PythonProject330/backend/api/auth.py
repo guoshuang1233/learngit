@@ -1,13 +1,16 @@
 # 创建登录API接口
-from flask import request, jsonify
-from backend.app import app, db
+from flask import request, jsonify, Blueprint
+from backend.extensions import db
 from backend.models import User
 from backend.utils.response import success_response, error_response
 from backend.utils.exceptions import ApiException
 from backend.utils.jwt_auth import jwt_required
 
+
+
+auth_bp = Blueprint('auth', __name__, url_prefix='/api')
 # 用户注册
-@app.route('/api/register', methods=['POST'])
+@auth_bp.route('/register', methods=['POST'])
 def register():
     data = request.get_json()
 
@@ -30,13 +33,14 @@ def register():
     try:
         db.session.add(new_user)
         db.session.commit()
+        db.session.remove()
         return success_response("注册成功", {'user_id': new_user.id})
     except Exception as e:
         db.session.rollback()
         raise ApiException("注册失败", 500)
 
 # 用户登录
-@app.route('/api/login', methods=['POST'])
+@auth_bp.route('/login', methods=['POST'])
 def login():
     data = request.get_json()
     if not data or not data.get('username') or not data.get('password'):
@@ -58,48 +62,6 @@ def login():
         'token': token,
         'user': user.to_dict()
     })
-
-# 获取当前用户信息（需要登录）
-@app.route('/api/user/me', methods=['GET'])
-@jwt_required
-def get_current_user():
-    user = (User.query.get(request.current_user_id))
-
-    if not user:
-        raise ApiException("用户不存在", 404)
-
-    return success_response(msg="获取成功", data=user.to_dict())
-
-# 更新当前用户信息（需要登录）
-@app.route('/api/user/me', methods=['PUT'])
-@jwt_required
-def update_user():
-    user = User.query.get(request.current_user_id)
-
-    if not user:
-        raise ApiException("用户不存在", 404)
-
-    data = request.get_json()
-
-    if data.get('username'):
-        # 检查用户名是否已被使用
-        existing = User.query.filter_by(username=data.get('username')).first()
-        if existing and existing.id != user.id:
-            raise ApiException("用户名已被使用", 400)
-        user.username = data.get('username')
-
-    if data.get('phone'):
-        user.phone = data.get('phone')
-
-    if data.get('email'):
-        user.email = data.get('email')
-
-    if data.get('avatar'):
-        user.avatar = data.get('avatar')
-
-    db.session.commit()
-
-    return success_response(msg="更新成功", data=user.to_dict())
 
 
 
