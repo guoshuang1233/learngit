@@ -1,0 +1,32 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+*.egg-info/
+.eggs/
+
+# 虚拟环境
+.venv/
+venv/
+env/
+
+# IDE
+.idea/
+*.iml
+
+# 日志
+logs/
+*.log
+
+# 数据库（可选）
+*.db
+
+# 压缩包
+*.zip
+*.rar
+*.tar.gz
+
+# 图片上传目录
+uploads/
