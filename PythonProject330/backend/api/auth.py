@@ -27,14 +27,42 @@ def register():
         raise ApiException("用户名已存在", 400)
 
     # 创建新用户
-    new_user = User(username=username)
+    new_user = User(username=username, role=0)
     new_user.set_password(password)
 
     try:
         db.session.add(new_user)
         db.session.commit()
         db.session.remove()
-        return success_response("注册成功", {'user_id': new_user.id})
+        return success_response({'user_id': new_user.id}, "注册成功")
+    except Exception as e:
+        db.session.rollback()
+        raise ApiException("注册失败", 500)
+
+@auth_bp.route('/admin/register', methods=['POST'])
+# 管理员注册
+def admin_register():
+    data = request.get_json()
+
+    if not data or not data.get('username') or not data.get('password'):
+        raise ApiException("用户名和密码不能为空", 400)
+
+    username = data.get('username')
+    password = data.get('password')
+
+    existing_user = User.query.filter_by(username=username).first()
+    if existing_user:
+        raise ApiException("用户名已存在", 400)
+
+    new_user = User(username=username, role=1)
+    new_user.set_password(password)
+
+    try:
+        db.session.add(new_user)
+        db.session.commit()
+        user_id = new_user.id
+        db.session.remove()
+        return success_response({'user_id': new_user.id}, "注册成功")
     except Exception as e:
         db.session.rollback()
         raise ApiException("注册失败", 500)
@@ -55,6 +83,9 @@ def login():
     if not user or not user.check_password(password):
         raise ApiException("用户名或密码错误", 401)
 
+    if user.role !=0:
+        raise ApiException("该账号不是普通用户，请使用后台登录", 403)
+
     # 生成 JWT token
     token = user.generate_jwt_token(expires_in=7200)  # 2 小时过期
 
@@ -63,9 +94,27 @@ def login():
         'user': user.to_dict()
     })
 
+@auth_bp.route('/admin/login', methods=['POST'])
+# 管理员登录
+def admin_login():
+    data = request.get_json()
+    if not data or not data.get('username') or not data.get('password'):
+        raise ApiException("用户名和密码不能为空", 400)
 
+    username = data.get('username')
+    password = data.get('password')
 
+    user = User.query.filter_by(username=username).first()
 
+    if not user or not user.check_password(password):
+        raise ApiException("用户名或密码错误", 401)
+    if user.role != 1:
+        raise ApiException("该账号不是管理员，请使用普通用户登录", 403)
+    token = user.generate_jwt_token(expires_in=7200)
+    return success_response(msg = "登录成功", data = {
+        'token': token,
+        'admin': user.to_dict()
+    })
 
 
 

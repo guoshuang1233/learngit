@@ -31,7 +31,6 @@ def register():
     except Exception as e:
         db.session.rollback()
         raise ApiException("注册失败", 500)
-        db,session.remove()
 
 # 获取当前用户信息（需要登录）
 @user_bp.route('/me', methods=['GET'])
