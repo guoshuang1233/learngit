@@ -36,6 +36,66 @@
 
         .content-card{background:white;border-radius:8px;padding:20px;box-shadow:0 2px 8px rgba(0,0,0,0.1)}
 
+        .product-tabs{display:flex;gap:0;margin-bottom:20px}
+        .product-tab{padding:12px 30px;background:#9e9e9e;color:white;border:none;cursor:pointer;font-size:14px;transition:all 0.3s}
+        .product-tab:first-child{border-radius:4px 0 0 4px}
+        .product-tab:last-child{border-radius:0 4px 4px 0}
+        .product-tab.active{background:#f39c12}
+        .product-tab:hover{opacity:0.9}
+
+        .product-toolbar{display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;padding-bottom:20px;border-bottom:1px solid #eee}
+        .search-box{position:relative;flex:1;max-width:400px}
+        .search-box input{width:100%;padding:10px 15px 10px 40px;border:1px solid #ddd;border-radius:4px;font-size:14px}
+        .search-box input:focus{border-color:#409eff;outline:none}
+        .search-box::before{content:'🔍';position:absolute;left:12px;top:50%;transform:translateY(-50%);font-size:16px}
+        .toolbar-right{display:flex;gap:15px;align-items:center}
+        .toolbar-btn{padding:8px 16px;background:white;border:1px solid #ddd;border-radius:4px;cursor:pointer;font-size:13px;color:#666;display:flex;align-items:center;gap:5px}
+        .toolbar-btn:hover{border-color:#409eff;color:#409eff}
+
+        .product-list{background:white}
+        .product-item{display:flex;padding:20px;border-bottom:1px solid #eee;gap:15px;transition:background 0.2s;align-items:flex-start}
+        .product-item:hover{background:#fafafa}
+        .product-item:last-child{border-bottom:none}
+
+        .product-checkbox{padding-top:30px}
+        .product-checkbox input{width:18px;height:18px;cursor:pointer}
+
+        .product-preview{padding-top:30px;color:#409eff;cursor:pointer;font-size:13px;display:flex;align-items:center;gap:5px}
+        .product-preview:hover{text-decoration:underline}
+
+        .product-main{flex:1;display:flex;gap:20px}
+        .product-image{width:100px;height:100px;border:1px solid #eee;border-radius:4px;overflow:hidden;flex-shrink:0;background:#f5f5f5}
+        .product-image img{width:100%;height:100%;object-fit:cover}
+
+        .product-info{flex:1}
+        .product-header{display:flex;align-items:center;gap:15px;margin-bottom:10px;flex-wrap:wrap}
+        .product-status{padding:4px 12px;border-radius:12px;font-size:12px;font-weight:500}
+        .status-draft{background:#fff3e0;color:#f39c12}
+        .status-onsale{background:#e8f5e9;color:#27ae60}
+        .status-offshelf{background:#fce4ec;color:#e74c3c}
+
+        .product-actions{display:flex;gap:15px;margin-left:auto;align-items:center}
+        .action-link{color:#409eff;font-size:13px;cursor:pointer;background:none;border:none;padding:0;display:flex;align-items:center;gap:5px}
+        .action-link:hover{text-decoration:underline}
+        .action-link.danger{color:#e74c3c}
+        .action-link.disabled{color:#999;cursor:not-allowed}
+
+        .item-number{color:#999;font-size:12px;margin-bottom:8px}
+        .product-name{font-size:16px;font-weight:600;color:#333;margin-bottom:8px}
+        .product-category{color:#666;font-size:13px;margin-bottom:8px}
+        .product-stock-info{color:#666;font-size:13px;margin-bottom:8px}
+        .product-price{color:#f39c12;font-size:15px;font-weight:600;margin-bottom:8px}
+        .product-tags{margin-top:8px}
+        .tag-link{color:#409eff;font-size:12px;cursor:pointer}
+        .tag-link:hover{text-decoration:underline}
+
+        .product-sidebar{display:flex;flex-direction:column;align-items:flex-end;justify-content:space-between;min-width:200px}
+        .update-info{text-align:right;color:#999;font-size:12px;line-height:1.8;margin-bottom:15px}
+        .update-info span{color:#333;font-weight:500}
+        .product-actions-bottom{display:flex;gap:15px}
+
+        .can-upshelf{display:inline-block;padding:2px 8px;background:#e8f5e9;color:#27ae60;border-radius:12px;font-size:11px;margin-top:5px}
+
         .order-tabs{display:flex;gap:10px;margin-bottom:20px;flex-wrap:wrap}
         .order-tab{padding:10px 20px;background:#95a5a6;color:white;border:none;border-radius:4px;cursor:pointer}
         .order-tab.active{background:#f39c12}
@@ -145,22 +205,29 @@
             </div>
 
             <div id="allProductsPage" style="display:none">
-                <div class="page-header"><h1 class="page-title">全部产品</h1></div>
+                <div class="page-header">
+                    <div style="display:flex;justify-content:space-between;align-items:center">
+                        <h1 class="page-title">全部产品</h1>
+                        <a href="javascript:void(0)" style="color:#409eff;font-size:14px">标签管理</a>
+                    </div>
+                </div>
                 <div class="content-card">
-                    <table id="productsTable">
-                        <thead>
-                            <tr>
-                                <th>ID</th>
-                                <th>图片</th>
-                                <th>名称</th>
-                                <th>价格</th>
-                                <th>库存</th>
-                                <th>分类</th>
-                                <th>操作</th>
-                            </tr>
-                        </thead>
-                        <tbody></tbody>
-                    </table>
+                    <div class="product-tabs">
+                        <button class="product-tab active" onclick="filterProducts('all')">全部产品</button>
+                        <button class="product-tab" onclick="filterProducts('draft')">草稿箱</button>
+                        <button class="product-tab" onclick="filterProducts('on_sale')">出售中</button>
+                        <button class="product-tab" onclick="filterProducts('off_shelf')">已下架</button>
+                    </div>
+                    <div class="product-toolbar">
+                        <div class="search-box">
+                            <input id="productSearch" oninput="searchProducts(this.value)" placeholder="搜索产品" type="text">
+                        </div>
+                        <div class="toolbar-right">
+                            <button class="toolbar-btn" onclick="toggleFilter()"> 筛选</button>
+                            <button class="toolbar-btn" onclick="sortProducts()"> 排序: 创建时间</button>
+                        </div>
+                    </div>
+                    <div class="product-list" id="productList"></div>
                 </div>
             </div>
 
@@ -244,6 +311,8 @@
     const API = 'http://127.0.0.1:5000'
     let isLoginMode = true
     let currentAdmin = null
+    let currentProductStatus = 'all'
+    let currentProductKeyword = ''
 
     async function parseErrorMessage(res, fallbackMsg) {
         try {
@@ -271,6 +340,55 @@
         document.getElementById('switchLink').innerText = isLoginMode ? '立即注册' : '立即登录'
     }
 
+    document.getElementById('productForm').addEventListener('submit', async function(e) {
+        e.preventDefault()
+
+        const token = localStorage.getItem('admin_token')
+        if (!token) {
+            alert('请先登录')
+            return
+        }
+
+        const name = document.getElementById('productName').value.trim()
+        const price = document.getElementById('productPrice').value
+        const stock = document.getElementById('productStock').value
+        const cid = document.getElementById('productCategory').value
+        const img = document.getElementById('productImage').value.trim()
+
+        if (!name) {
+            alert('请输入产品名称')
+            return
+        }
+        if (!price || parseFloat(price) < 0) {
+            alert('请输入正确的价格')
+            return
+        }
+
+        try {
+            const data = await requestJson(API + '/api/admin/goods', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                },
+                body: JSON.stringify({
+                    name: name,
+                    price: parseFloat(price),
+                    stock: parseInt(stock) || 0,
+                    cid: cid ? parseInt(cid) : null,
+                    img: img
+                })
+            }, '添加商品失败')
+
+            alert('商品添加成功！')
+            document.getElementById('productForm').reset()
+            document.getElementById('productStock').value = '100'
+        } catch (error) {
+            console.error('添加商品失败:', error)
+            alert(error.message || '添加商品失败')
+        }
+    })
+
     function switchPage(page) {
         const pages = ['addProductPage', 'allProductsPage', 'stockManagePage', 'uploadImagePage', 'allOrdersPage']
         pages.forEach(p => document.getElementById(p).style.display = 'none')
@@ -279,7 +397,8 @@
         document.querySelectorAll('.menu-item').forEach(item => item.classList.remove('active'))
         event.target.classList.add('active')
 
-        if (page === 'allProducts' || page === 'stockManage') loadProducts()
+        if (page === 'allProducts') loadAdminProducts()
+        if (page === 'stockManage') loadProducts()
         if (page === 'allOrders') loadOrders()
         if (page === 'addProduct') loadCategories()
     }
@@ -301,42 +420,281 @@
     }
 
     async function loadProducts() {
-        const tbody = document.querySelector('#productsTable tbody')
         const stockTbody = document.querySelector('#stockTable tbody')
-        tbody.innerHTML = ''
         stockTbody.innerHTML = ''
+
+        const token = localStorage.getItem('admin_token')
+
         try {
-            const data = await requestJson(API + '/api/goods?page=1&size=100', {}, '产品加载失败')
+            const data = await requestJson(API + '/api/stock/list?page=1&size=100', {
+                headers: {'Authorization': `Bearer ${token}`}
+            }, '库存加载失败')
+
             if (data.data && data.data.list) {
                 data.data.list.forEach(product => {
-                    tbody.innerHTML += `
-                    <tr>
-                        <td>${product.id}</td>
-                        <td><img src="${product.img}" style="width:60px;height:60px;object-fit:cover;border-radius:4px"></td>
-                        <td>${product.name}</td>
-                        <td>¥${product.price}</td>
-                        <td>${product.stock || 0}</td>
-                        <td>${product.category_name || '-'}</td>
-                        <td>
-                            <button class="action-btn btn-edit" onclick="editProduct(${product.id})">编辑</button>
-                            <button class="action-btn btn-delete" onclick="deleteProduct(${product.id})">删除</button>
-                        </td>
-                    </tr>
-                `
-                stockTbody.innerHTML += `
+                    stockTbody.innerHTML += `
                     <tr>
                         <td>${product.id}</td>
                         <td>${product.name}</td>
-                        <td>${product.stock || 0}</td>
+                        <td>${product.stock}</td>
                         <td><input type="number" class="stock-input" id="stock_${product.id}" value="0"></td>
                         <td><button class="save-stock" onclick="updateStock(${product.id})">更新</button></td>
                     </tr>
                 `
                 })
+            } else {
+                stockTbody.innerHTML = '<tr><td colspan="5" style="text-align:center;color:#999;padding:40px">暂无库存数据</td></tr>'
             }
         } catch (error) {
+            console.error('加载库存失败:', error)
+            alert(error.message || '库存加载失败')
+        }
+    }
+
+    async function loadAdminProducts(status = 'all', keyword = '') {
+        const token = localStorage.getItem('admin_token')
+        const container = document.getElementById('productList')
+        container.innerHTML = '<div style="padding:40px;text-align:center;color:#999">加载中...</div>'
+
+        try {
+            let url = API + '/api/admin/goods/list?page=1&size=20'
+            if (status !== 'all') {
+                url += '&status=' + status
+            }
+            if (keyword) {
+                url += '&keyword=' + encodeURIComponent(keyword)
+            }
+
+            const data = await requestJson(url, {
+                headers: {'Authorization': `Bearer ${token}`}
+            }, '产品加载失败')
+
+            container.innerHTML = ''
+
+            if (!data.data || !data.data.list || data.data.list.length === 0) {
+                container.innerHTML = '<div style="padding:60px;text-align:center;color:#999">暂无产品</div>'
+                return
+            }
+
+            data.data.list.forEach(product => {
+                const statusClass = product.status === 0 ? 'status-draft' : (product.status === 1 ? 'status-onsale' : 'status-offshelf')
+                const shelfAction = product.status === 1
+                    ? `<button class="action-link" onclick="changeProductStatus(${product.id}, 2)">⬇ 立即下架</button>`
+                    : `<button class="action-link" onclick="changeProductStatus(${product.id}, 1)">⬆ 立即上架</button>`
+
+                const canUpshelf = product.status === 0 && product.stock > 0 ? '<div class="can-upshelf">✓ 可上架</div>' : ''
+
+                container.innerHTML += `
+                    <div class="product-item">
+                        <div class="product-checkbox">
+                            <input type="checkbox" class="product-check" data-id="${product.id}">
+                        </div>
+                        <div class="product-preview" onclick="previewProduct(${product.id})">
+                            👁 客户端预览
+                        </div>
+                        <div class="product-main">
+                            <div class="product-image">
+                                <img src="${product.img || 'https://via.placeholder.com/100'}" alt="${product.name}">
+                            </div>
+                            <div class="product-info">
+                                <div class="product-header">
+                                    <span class="product-status ${statusClass}">${product.status_text}</span>
+                                    <button class="action-link" onclick="copyProductLink(${product.id})">复制链接</button>
+                                    <div class="product-actions">
+                                        ${shelfAction}
+                                        <button class="action-link" onclick="editAdminProduct(${product.id})">✎ 编辑产品</button>
+                                    </div>
+                                </div>
+                                <div class="item-number">Item Number.${String(product.id).padStart(8, '0').toUpperCase()}</div>
+                                <div class="product-name">${product.name}</div>
+                                <div class="product-category">${product.category_name || '未分类'}</div>
+                                <div class="product-stock-info">共有${product.stock || 0}款在售商品</div>
+                                <div class="product-price">单价:¥${product.price}</div>
+                                <div class="product-tags">
+                                    <span class="tag-link">添加标签+</span>
+                                </div>
+                                ${canUpshelf}
+                            </div>
+                        </div>
+                        <div class="product-sidebar">
+                            <div class="update-info">
+                                更新时间:${product.update_time || '-'}<br>
+                                <span>修改人: ${product.editor || '管理员'}</span>
+                            </div>
+                            <div class="product-actions-bottom">
+                                <button class="action-link" onclick="editAdminProduct(${product.id})">✎ 编辑产品</button>
+                                <button class="action-link danger" onclick="deleteAdminProduct(${product.id})">🗑 删除产品</button>
+                            </div>
+                        </div>
+                    </div>
+                `
+            })
+        } catch (error) {
             console.error('加载产品失败:', error)
-            alert(error.message || '产品加载失败')
+            container.innerHTML = `<div style="padding:40px;text-align:center;color:#e74c3c">${error.message || '加载失败'}</div>`
+        }
+    }
+
+    function filterProducts(status) {
+        currentProductStatus = status
+        document.querySelectorAll('.product-tab').forEach(tab => tab.classList.remove('active'))
+        event.target.classList.add('active')
+        loadAdminProducts(status, currentProductKeyword)
+    }
+
+    function searchProducts(keyword) {
+        currentProductKeyword = keyword
+        loadAdminProducts(currentProductStatus, keyword)
+    }
+
+    function toggleFilter() {
+        alert('筛选功能开发中...')
+    }
+
+    function sortProducts() {
+        alert('排序功能开发中...')
+    }
+
+    function previewProduct(productId) {
+        window.open(`${API}/frontend/index.html?product_id=${productId}`, '_blank')
+    }
+
+    function copyProductLink(productId) {
+        const link = `${API}/frontend/index.html?product_id=${productId}`
+        navigator.clipboard.writeText(link).then(() => {
+            alert('链接已复制！')
+        }).catch(() => {
+            alert('复制失败，请手动复制')
+        })
+    }
+
+    async function editAdminProduct(productId) {
+        const token = localStorage.getItem('admin_token')
+
+        try {
+            const data = await requestJson(API + '/api/admin/goods/list?page=1&size=100', {
+                headers: {'Authorization': `Bearer ${token}`}
+            }, '商品加载失败')
+
+            const product = data.data.list.find(p => p.id === productId)
+            if (!product) {
+                alert('商品不存在')
+                return
+            }
+
+            const name = prompt('商品名称:', product.name)
+            if (name === null) return
+
+            const price = prompt('商品价格:', product.price)
+            if (price === null) return
+
+            const stock = prompt('商品库存:', product.stock || 0)
+            if (stock === null) return
+
+            const imageUrl = prompt('图片URL:', product.img || '')
+            if (imageUrl === null) return
+
+            const res = await fetch(API + '/api/admin/goods/' + productId, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                },
+                body: JSON.stringify({
+                    name: name.trim(),
+                    price: parseFloat(price),
+                    stock: parseInt(stock),
+                    img: imageUrl.trim()
+                })
+            })
+
+            if (!res.ok) {
+                const msg = await parseErrorMessage(res, '更新失败')
+                alert(msg)
+                return
+            }
+
+            const result = await res.json()
+            if (result.code === 200) {
+                alert('更新成功')
+                loadAdminProducts(currentProductStatus, currentProductKeyword)
+            } else {
+                alert(result.msg || '更新失败')
+            }
+        } catch (error) {
+            console.error('更新商品失败:', error)
+            alert(error.message || '更新失败')
+        }
+    }
+
+    async function deleteAdminProduct(productId) {
+        if (!confirm('确定要删除这个商品吗？此操作不可恢复！')) {
+            return
+        }
+
+        const token = localStorage.getItem('admin_token')
+
+        try {
+            const res = await fetch(API + '/api/admin/goods/' + productId, {
+                method: 'DELETE',
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            })
+
+            if (!res.ok) {
+                const msg = await parseErrorMessage(res, '删除失败')
+                alert(msg)
+                return
+            }
+
+            const result = await res.json()
+            if (result.code === 200) {
+                alert('删除成功')
+                loadAdminProducts(currentProductStatus, currentProductKeyword)
+            } else {
+                alert(result.msg || '删除失败')
+            }
+        } catch (error) {
+            console.error('删除商品失败:', error)
+            alert(error.message || '删除失败')
+        }
+    }
+
+    async function changeProductStatus(productId, newStatus) {
+        const token = localStorage.getItem('admin_token')
+        const statusText = newStatus === 1 ? '上架' : '下架'
+
+        if (!confirm(`确定要${statusText}这个商品吗？`)) {
+            return
+        }
+
+        try {
+            const res = await fetch(API + '/api/admin/goods/' + productId + '/status', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                },
+                body: JSON.stringify({status: newStatus})
+            })
+
+            if (!res.ok) {
+                const msg = await parseErrorMessage(res, '操作失败')
+                alert(msg)
+                return
+            }
+
+            const result = await res.json()
+            if (result.code === 200) {
+                alert(`${statusText}成功`)
+                loadAdminProducts(currentProductStatus, currentProductKeyword)
+            } else {
+                alert(result.msg || '操作失败')
+            }
+        } catch (error) {
+            console.error('更新状态失败:', error)
+            alert(error.message || '操作失败')
         }
     }
 
@@ -445,26 +803,32 @@
     }
 
     async function updateStock(productId) {
-        const input = document.getElementById(`stock_${productId}`)
-        const change = parseInt(input.value)
-        if (!change) return alert('请输入调整数量')
+        const input = document.getElementById('stock_' + productId)
+        const stockValue = parseInt(input.value)
+        if (isNaN(stockValue)) return alert('请输入调整数量')
 
         const token = localStorage.getItem('admin_token')
         try {
-            const data = await requestJson(API + '/api/admin/goods/stock', {
-                method: 'PUT',
+            const data = await requestJson(API + '/api/stock/update', {
+                method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                     'Authorization': `Bearer ${token}`
                 },
-                body: JSON.stringify({goods_id: productId, stock_change: change})
+                body: JSON.stringify({
+                    goods_id: productId,
+                    stock: stockValue,
+                    operation: 'set'
+                })
             }, '库存更新失败')
-            if (data.code === 200) {
-                alert('库存更新成功')
-                loadProducts()
-            } else {
-                alert(data.msg || '库存更新失败')
+
+            alert('库存更新成功')
+
+            const currentStockCell = input.parentElement.previousElementSibling
+            if (currentStockCell) {
+                currentStockCell.textContent = stockValue
             }
+            input.value = 0
         } catch (error) {
             console.error('更新库存失败:', error)
             alert(error.message || '库存更新失败')
@@ -570,7 +934,6 @@
         alert('URL已复制到剪贴板')
     }
 
-    // 拖拽上传
     const uploadArea = document.getElementById('uploadArea')
     uploadArea.addEventListener('dragover', (e) => {
         e.preventDefault()

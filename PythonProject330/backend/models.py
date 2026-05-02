@@ -3,7 +3,6 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from datetime import datetime, timedelta
 import jwt
 
-# 创建模型文件--商品表（类=数据库表），需要添加关系映射
 class Goods(db.Model):
     __tablename__ = 'goods'
     id = db.Column(db.Integer, primary_key=True)
@@ -11,6 +10,10 @@ class Goods(db.Model):
     price = db.Column(db.Float, nullable=False)
     img = db.Column(db.String(255))
     cid = db.Column(db.Integer, index=True)
+    stock = db.Column(db.Integer, default=0, comment='库存数量')
+    status = db.Column(db.Integer, default=1, comment='商品状态：0草稿 1出售中 2已下架')
+    create_time = db.Column(db.DateTime, default=datetime.now, comment='创建时间')
+    update_time = db.Column(db.DateTime, default=datetime.now, onupdate=datetime.now, comment='更新时间')
 
 # backref = 'user'的意思是反向引用，作用：在Cart对象上增加一个属性user，指向这个购物车所属的用户，python
     # 如：cart = Cart.query.first()，print(cart.user.name)  # 通过 cart.user 访问所属的用户
@@ -49,13 +52,13 @@ class User(db.Model):
             'iat': datetime.utcnow(),
             'exp': datetime.utcnow() + timedelta(seconds=expires_in),
         }
-        token = jwt.encode(payload, key='secret', algorithm='HS256')
+        token = jwt.encode(payload, key='your-super-secret-jwt-key-at-least-32-chars-long!', algorithm='HS256')
         return token
 
     @staticmethod
     def verify_jwt_token(token):
         try:
-            payload = jwt.decode(token, key='secret', algorithms=['HS256'])
+            payload = jwt.decode(token, key='your-super-secret-jwt-key-at-least-32-chars-long!', algorithms=['HS256'])
             return payload
         except jwt.ExpiredSignatureError:
             return None

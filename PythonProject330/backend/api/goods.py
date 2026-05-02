@@ -30,6 +30,8 @@ def get_goods(): # 负责处理请求并返回数据
 
     # 从数据库查询
     query = Goods.query
+    # 只显示出售中的商品
+    query = query.filter(Goods.status == 1)
 
     # 筛选分类
     if cid != 0:
@@ -56,6 +58,7 @@ def get_goods(): # 负责处理请求并返回数据
             "name": g.name,
             "price": g.price,
             "img": g.img,
-            "cid": g.cid
+            "cid": g.cid,
+            "available": g.stock > 0 # 商品是否可售（boolean布尔值）
         })
     return success_response(data={"total": total, "list": res_list})

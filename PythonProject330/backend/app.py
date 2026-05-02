@@ -29,6 +29,9 @@ from backend.api.auth import auth_bp
 from backend.api.cart import cart_bp
 from backend.api.chat import rag_bp
 from backend.api.upload import upload_bp
+from backend.api.stock import stock_bp
+from backend.api.admin_goods import admin_goods_bp
+from backend.api.order import order_bp
 
 app.register_blueprint(goods_bp)
 app.register_blueprint(category_bp)
@@ -37,6 +40,10 @@ app.register_blueprint(auth_bp)
 app.register_blueprint(cart_bp)
 app.register_blueprint(rag_bp)
 app.register_blueprint(upload_bp)
+app.register_blueprint(stock_bp)
+app.register_blueprint(admin_goods_bp)
+app.register_blueprint(order_bp)
+
 
 # from api.goods import *
 # from api.category import *

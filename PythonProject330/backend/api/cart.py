@@ -25,6 +25,10 @@ def add_cart():
     if not goods:
         raise ApiException("商品不存在", 404)
 
+    stock = goods.stock if hasattr(goods, 'stock') else 0
+    if stock <= 0:
+        raise ApiException("商品已售罄，无法加入购物车", 400)
+
     # cart = Cart.query.filter_by(user_id=user_id, goods_id=goods_id).first()
     # 找到这个用户的购物车
     cart_key = f"cart:{user_id}"
@@ -62,6 +66,7 @@ def cart_list():
         cart_data = json.loads(cart_json)
         goods = Goods.query.get(goods_id)
         if goods:
+            stock = goods.stock if hasattr(goods, 'stock') else 0 # hasattr判断对象是否包含对应的属性
             result.append({
                 "id": goods.id,
                 "goods_id": int(goods_id),
@@ -70,7 +75,9 @@ def cart_list():
                 "price": float(goods.price),
                 "count": cart_data["count"],
                 "is_selected": cart_data.get("is_selected", True),
-                "create_time":cart_data.get("create_time")
+                "create_time":cart_data.get("create_time") ,
+                "stock": goods.stock,
+                "available": goods.stock > 0
             })
     return success_response(data=result)
 

@@ -73,8 +73,9 @@ def get_vector_store():
     return vector_store
 
 def search_relevant(question, k=3):
-    vs = build_vector_store()
-    docs = vs.similarity_search(question, k=k)
+    # vs = build_vector_store() 会每次重新构建向量库，验证影响性能，所以这里只构建一次向量库，缓存到内存中
+    vs = get_vector_store() #获取缓存的向量库
+    docs = vs.similarity_search(question, k=k) # 相似度检索，余弦度数越接近，检索结果越准确
     return "\n".join([d.page_content for d in docs])
 # 六、RGA接口（对接前端）
 # ======================
@@ -102,7 +103,6 @@ def rag_chat():
         api_key="sk-0d3924e04fd84eebaed1d226167f72ac",
         model="qwen-turbo",
     )
-
     answer = llm.invoke(prompt).content
 
     return jsonify({
