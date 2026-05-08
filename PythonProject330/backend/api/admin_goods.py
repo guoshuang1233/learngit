@@ -134,6 +134,9 @@ def add_goods():
     img = data.get('img', '')
     status = data.get('status', 1)
 
+    # 添加调试信息
+    print(f"📦 接收到的数据: name={name}, price={price}, stock={stock}, cid={cid}, img={img}")
+
     if not name:
         raise ApiException('商品名称不能为空', 400)
     if price is None or price <= 0:
@@ -141,9 +144,22 @@ def add_goods():
     if stock < 0:
         raise ApiException('商品库存不能小于0', 400)
 
+    # 添加调试信息
+    # 确保 cid 是整数或 None
+    if cid is not None and cid != '':
+        cid = int(cid)
+        print(f"✅ 分类I 3D: {cid}")
+    else:
+        cid = None
+        print(f"⚠️ 分类ID为空")
+
     new_goods = Goods(name=name, price=price, stock=stock, cid=cid, img=img, status=status)
     db.session.add(new_goods)
     db.session.commit()
+
+    # 添加调试信息
+    print(f"✅ 商品已保存，ID: {new_goods.id}, cid: {new_goods.cid}")
+    
     return success_response(msg="添加成功", data={"id": new_goods.id})
 
 

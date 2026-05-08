@@ -32,6 +32,7 @@ from backend.api.upload import upload_bp
 from backend.api.stock import stock_bp
 from backend.api.admin_goods import admin_goods_bp
 from backend.api.order import order_bp
+from backend.api.address import address_bp
 
 app.register_blueprint(goods_bp)
 app.register_blueprint(category_bp)
@@ -43,12 +44,11 @@ app.register_blueprint(upload_bp)
 app.register_blueprint(stock_bp)
 app.register_blueprint(admin_goods_bp)
 app.register_blueprint(order_bp)
-
+app.register_blueprint(address_bp)
 
 # from api.goods import *
 # from api.category import *
-
-#-----------第五步新增全局异常捕获========
+#----------第五步新增全局异常捕获========
 from backend.utils.response import success_response, error_response
 from backend.utils.exceptions import ApiException
 # from api.goods import *

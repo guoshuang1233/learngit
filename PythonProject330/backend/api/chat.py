@@ -30,14 +30,16 @@ def get_knowledge_from_mysql():
     goods_list = Goods.query.all()
     knowledge += "商品信息： \n"
     for g in goods_list:
-        knowledge += f"商品名：{g.title}，价格：{g.price}, 库存：{g.stock}, 描述：{g.desc} \n"
+        # 修改为数据库中实际存在的字段：name
+        knowledge += f"商品名：{g.name}，价格：{g.price}, 库存：{g.stock} \n"
     knowledge += "\n-----------------------\n"
     # 2.读取所有订单信息
     order_list = Order.query.all()
     knowledge += "订单信息： \n"
     for o in order_list:
-        status = "待支付" if o.status == 0 else "已支付" if o.status == 1 else "已发货" if o.status == 2 else "已完成"
-        knowledge += f"订单编号：{o.id}，用户ID：{o.user_id}，订单金额：{o.total_amount}，订单状态：{o.status} \n"
+        status = "待付款" if o.status == 0 else "已付款" if o.status == 1 else "已发货" if o.status == 2 else "已完成"
+        # 使用转换后的 status 变量
+        knowledge += f"订单编号：{o.id}，用户ID：{o.user_id}，订单金额：{o.total_amount}，订单状态：{status} \n"
     knowledge += "\n-----------------------\n"
     knowledge += "客服规则：7天无理由退货，24小时内发货，包邮，退款1-3天到账"
     return knowledge

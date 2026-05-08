@@ -1,11 +1,20 @@
 from flask import Blueprint, request
+from sqlalchemy import or_
 from backend.extensions import db
 from backend.models import Order, OrderItem, Cart, Goods
 from backend.utils.response import success_response
 from backend.utils.exceptions import ApiException
 from backend.utils.jwt_auth import jwt_required
-from datetime import datetime
+from datetime import datetime, timedelta
 import uuid
+
+STATUS_MAP = {
+    0: "待付款",
+    1: "待发货",
+    2: "运输中",
+    3: "已完成",
+    4: "已取消",
+}
 
 order_bp = Blueprint("order", __name__, url_prefix="/api/order")
 
@@ -125,32 +134,74 @@ def cancel_order(order_id):
         raise ApiException("取消订单失败", 500)
 
 
+def _serialize_order_row(order):
+    items = OrderItem.query.filter_by(order_id=order.id).all()
+    total_qty = sum(i.count for i in items)
+    previews = []
+    for oi in items[:5]:
+        g = Goods.query.get(oi.goods_id)
+        previews.append({
+            "goods_id": oi.goods_id,
+            "goods_name": oi.goods_name,
+            "count": oi.count,
+            "img": (g.img if g and g.img else "") or "",
+        })
+    return {
+        "order_id": order.id,
+        "total_amount": float(order.total_amount),
+        "status": order.status,
+        "status_text": STATUS_MAP.get(order.status, "未知状态"),
+        "create_time": order.create_time.strftime("%Y-%m-%d %H:%M:%S") if order.create_time else None,
+        "item_count": total_qty,
+        "items_preview": previews,
+    }
+
+
 @order_bp.route("/list", methods=["GET"])
 @jwt_required
 def order_list():
-    """获取订单列表"""
+    """获取订单列表（支持关键词、时间范围、状态 Tab）"""
     user_id = request.current_user_id
+    keyword = (request.args.get("keyword") or "").strip()
+    months = request.args.get("months", default="6")
+    tab = (request.args.get("tab") or "all").strip().lower()
 
-    orders = Order.query.filter_by(user_id=user_id).order_by(Order.create_time.desc()).all()
+    try:
+        months_int = int(months)
+    except ValueError:
+        months_int = 6
 
-    status_map = {
-        0: "待付款",
-        1: "已付款",
-        2: "已发货",
-        3: "已完成",
-        4: "已取消"
+    base_q = Order.query.filter_by(user_id=user_id)
+    if months_int > 0:
+        since = datetime.now() - timedelta(days=31 * months_int)
+        base_q = base_q.filter(Order.create_time >= since)
+
+    counts = {
+        "all": base_q.count(),
+        "unpaid": base_q.filter(Order.status == 0).count(),
+        "transit": base_q.filter(Order.status == 2).count(),
+        "return": base_q.filter(Order.status == 3).count(),
     }
 
-    result = []
-    for order in orders:
-        result.append({
-            "order_id": order.id,
-            "total_amount": float(order.total_mount),
-            "status": status_map.get(order.status, "未知状态"),
-            "create_time": order.create_time.strftime("%Y-%m-%d %H:%M:%S") if order.create_time else None,
-        })
+    q = base_q
+    if tab == "unpaid":
+        q = q.filter(Order.status == 0)
+    elif tab == "transit":
+        q = q.filter(Order.status == 2)
+    elif tab == "return":
+        q = q.filter(Order.status == 3)
 
-    return success_response(data=result)
+    if keyword:
+        like = f"%{keyword}%"
+        match_items = db.session.query(OrderItem.order_id).filter(
+            OrderItem.goods_name.like(like)
+        ).distinct()
+        q = q.filter(or_(Order.id.like(like), Order.id.in_(match_items)))
+
+    orders = q.order_by(Order.create_time.desc()).all()
+    result = [_serialize_order_row(o) for o in orders]
+
+    return success_response(data={"list": result, "counts": counts})
 
 
 @order_bp.route("/detail/<order_id>", methods=["GET"])
@@ -161,31 +212,27 @@ def order_detail(order_id):
 
     order = Order.query.filter_by(id=order_id, user_id=user_id).first()
     if not order:
-        raise ApiException(msg="订单不存在")
+        raise ApiException("订单不存在", 404)
 
     items = OrderItem.query.filter_by(order_id=order_id).all()
 
-    item_data = [{
-        "goods_id": item.goods_id,
-        "goods_name": item.goods_name,
-        "goods_price": float(item.goods_price),
-        "count": item.count,
-        "total_price": float(item.total_price)
-    } for item in items]
-
-    status_map = {
-        0: "待付款",
-        1: "已付款",
-        2: "已发货",
-        3: "已完成",
-        4: "已取消"
-    }
+    item_data = []
+    for item in items:
+        g = Goods.query.get(item.goods_id)
+        item_data.append({
+            "goods_id": item.goods_id,
+            "goods_name": item.goods_name,
+            "goods_price": float(item.goods_price),
+            "count": item.count,
+            "total_price": float(item.total_price),
+            "goods_img": (g.img if g and g.img else "") or "",
+        })
 
     return success_response(data={
         "order_id": order.id,
-        "total_amount": float(order.total_mount),
+        "total_amount": float(order.total_amount),
         "status": order.status,
-        "status_text": status_map.get(order.status),
+        "status_text": STATUS_MAP.get(order.status),
         "create_time": order.create_time.strftime("%Y-%m-%d %H:%M:%S"),
         "items": item_data
     })

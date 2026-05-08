@@ -122,19 +122,19 @@ class OrderItem(db.Model):
 
     goods = db.relationship("Goods", backref="order_items")
 
-# # 收获地址表
-#     class Address(db.Model):
-#         __tablename__ = "addresses"
-#         id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-#         user_id = db.Column(db.Integer, db.ForeignKey("users.id"), nullable=False, comment="关联用户ID")
-#         receiver = db.Column(db.String(50), nullable=False, comment="收货人")
-#         phone = db.Column(db.String(20), nullable=False, comment="手机号")
-#         province = db.Column(db.String(50), nullable=False, comment="省")
-#         city = db.Column(db.String(50), nullable=False, comment="市")
-#         district = db.Column(db.String(50), nullable=False, comment="区/县")
-#         detail = db.Column(db.String(100), nullable=False, comment="详细地址")
-#         is_default = db.Column(db.Boolean, default=False, comment="是否默认地址")
-#         create_time = db.Column(db.DateTime, default=datetime.now, comment="创建时间")
-#
-#         user = db.relationship("user", backref="addresses")
+# 收获地址表
+class Address(db.Model):
+    __tablename__ = "addresses"
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    user_id = db.Column(db.Integer, db.ForeignKey("users.id"), nullable=False, comment="关联用户ID")
+    receiver = db.Column(db.String(50), nullable=False, comment="收货人")
+    phone = db.Column(db.String(20), nullable=False, comment="手机号")
+    province = db.Column(db.String(50), nullable=False, comment="省")
+    city = db.Column(db.String(50), nullable=False, comment="市")
+    district = db.Column(db.String(50), nullable=False, comment="区/县")
+    detail = db.Column(db.String(100), nullable=False, comment="详细地址")
+    is_default = db.Column(db.Boolean, default=False, comment="是否默认地址")
+    create_time = db.Column(db.DateTime, default=datetime.now, comment="创建时间")
+
+    user = db.relationship("User", backref="addresses")
 
