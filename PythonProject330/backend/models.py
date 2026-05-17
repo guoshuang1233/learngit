@@ -1,3 +1,11 @@
+import os
+import sys
+from dotenv import load_dotenv
+
+# 加载项目根目录的 .env 文件
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+load_dotenv(os.path.join(BASE_DIR, '.env'))
+
 from backend.extensions import db
 from werkzeug.security import generate_password_hash, check_password_hash
 from datetime import datetime, timedelta
@@ -52,13 +60,15 @@ class User(db.Model):
             'iat': datetime.utcnow(),
             'exp': datetime.utcnow() + timedelta(seconds=expires_in),
         }
-        token = jwt.encode(payload, key='your-super-secret-jwt-key-at-least-32-chars-long!', algorithm='HS256')
+        secret_key = os.getenv('SECRET_KEY', 'fallback-key-change-me')
+        token = jwt.encode(payload, key=secret_key, algorithm='HS256')
         return token
 
     @staticmethod
     def verify_jwt_token(token):
         try:
-            payload = jwt.decode(token, key='your-super-secret-jwt-key-at-least-32-chars-long!', algorithms=['HS256'])
+            secret_key = os.getenv('SECRET_KEY', 'fallback-key-change-me')
+            payload = jwt.decode(token, key=secret_key, algorithms=['HS256'])
             return payload
         except jwt.ExpiredSignatureError:
             return None

@@ -1,27 +1,36 @@
 # backend/app.py
 import os
 import sys
+from dotenv import load_dotenv
 
-# 将项目根目录（PythonProject330）加入系统路径，确保 from backend.xxx 能成功导入
+# 将项目根目录（PythonProject330）加入系统路径
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 if BASE_DIR not in sys.path:
     sys.path.insert(0, BASE_DIR)
+
+# 加载根目录的 .env 文件
+load_dotenv(os.path.join(BASE_DIR, '.env'))
 
 from flask import Flask
 from flask_cors import CORS
 from backend.extensions import db
 
 #==============MySQL配置===========
-# 第一步，创建Flask应用实例
 app = Flask(__name__)
 
-# 👇 就加这一行！解决中文返回乱码
 app.config['JSON_AS_ASCII'] = False
 app.config['JSONIFY_MIMETYPE'] = 'application/json; charset=utf-8'
-# 第二步，配置数据库连接信息
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:AAaa123456@localhost:3306/testdb'
+
+# 从环境变量读取数据库配置
+DB_USER = os.getenv('DB_USER', 'root')
+DB_PASSWORD = os.getenv('DB_PASSWORD', '')
+DB_HOST = os.getenv('DB_HOST', 'localhost')
+DB_PORT = os.getenv('DB_PORT', '3306')
+DB_NAME = os.getenv('DB_NAME', 'testdb')
+
+app.config['SQLALCHEMY_DATABASE_URI'] = f'mysql+pymysql://{DB_USER}:{DB_PASSWORD}@{DB_HOST}:{DB_PORT}/{DB_NAME}'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-app.config['MAX_CONTENT_LENGTH'] = 50 * 1024 * 1024 # 最大图片不超过50MB
+app.config['MAX_CONTENT_LENGTH'] = 50 * 1024 * 1024
 
 # 第三步，初始化ORM，初始化所有扩展
 db.init_app(app)
