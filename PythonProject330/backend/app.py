@@ -1,5 +1,11 @@
 # backend/app.py
 import os
+import sys
+
+# 将项目根目录（PythonProject330）加入系统路径，确保 from backend.xxx 能成功导入
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+if BASE_DIR not in sys.path:
+    sys.path.insert(0, BASE_DIR)
 
 from flask import Flask
 from flask_cors import CORS
