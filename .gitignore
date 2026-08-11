@@ -1,0 +1,38 @@
+# 密钥
+.env
+
+# 数据库
+db.sqlite3
+
+# 上传/媒体
+media/
+
+# 生成物
+generated/
+generated_test/
+allure-results/
+
+# 日志
+*.log
+logs/
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+venv/
+
+# IDE
+.idea/
+.vscode/
+
+# 迁移文件
+apps/*/migrations/
+
+# 文档
+*.md
+
+# 临时
+*.tmp
+*.bak
+*.pyo

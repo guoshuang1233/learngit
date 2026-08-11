@@ -1,0 +1,112 @@
+{% extends "base.html" %}
+
+{% block title %}工作台 | AI Test Platform{% endblock %}
+
+{% block content %}
+<main class="workbench">
+    <section class="hero">
+        <div>
+            <p class="eyebrow">AI Test Platform</p>
+            <h1>工作台</h1>
+            <p class="muted">先把第一、第二链路的入口串起来，提交、轮询、下载都从这里走。</p>
+        </div>
+        <div class="hero-links">
+            <a class="btn" href="/api/requirements/submit/">需求提交 API</a>
+            <a class="btn btn-ghost" href="/api/script-generation/submit/">脚本生成 API</a>
+        </div>
+    </section>
+
+    <section class="grid">
+        <article class="panel">
+            <h2>需求文档提交</h2>
+            <form method="post" action="{{ requirement_submit_url }}" enctype="multipart/form-data">
+                <label>项目 ID<input name="project_id" placeholder="例如 1" required></label>
+                <label>创建人 ID<input name="created_by_id" placeholder="可选"></label>
+                <label>需求文档<input type="file" name="source_file"></label>
+                <label>提取文本<textarea name="extracted_text" rows="6" placeholder="可直接粘贴需求内容"></textarea></label>
+                <label>规则说明<textarea name="rule_text" rows="4" placeholder="可选"></textarea></label>
+                <label class="inline"><input type="checkbox" name="run_async" value="true"> 异步执行</label>
+                <button type="submit">提交需求</button>
+            </form>
+        </article>
+
+        <article class="panel">
+            <h2>测试用例生成</h2>
+            <form method="post" action="{{ script_submit_url }}" enctype="multipart/form-data">
+                <label>项目 ID<input name="project_id" placeholder="例如 1" required></label>
+                <label>测试集 ID<input name="suite_id" placeholder="可选"></label>
+                <label>测试集文档<input type="file" name="suite_file"></label>
+                <label>接口文档<input type="file" name="api_file"></label>
+                <label>测试集文本<textarea name="suite_text" rows="4" placeholder="可直接粘贴测试集内容"></textarea></label>
+                <label>接口文本<textarea name="api_text" rows="4" placeholder="可选"></textarea></label>
+                <label>规则说明<textarea name="rule_text" rows="4" placeholder="可选"></textarea></label>
+                <label class="inline"><input type="checkbox" name="run_async" value="true"> 异步执行</label>
+                <button type="submit">生成脚本</button>
+            </form>
+        </article>
+    </section>
+
+    <section class="grid">
+        <article class="panel">
+            <h2>最近项目</h2>
+            <ul class="list">
+                {% for project in projects %}
+                <li>
+                    <strong>{{ project.name }}</strong>
+                    <span>ID {{ project.id }}</span>
+                </li>
+                {% empty %}
+                <li>暂无项目</li>
+                {% endfor %}
+            </ul>
+        </article>
+
+        <article class="panel">
+            <h2>最近需求任务</h2>
+            <ul class="list">
+                {% for job in design_jobs %}
+                <li>
+                    <strong>#{{ job.id }}</strong>
+                    <span>{{ job.project.name }}</span>
+                    <a href="/api/requirements/jobs/{{ job.id }}/status/">状态</a>
+                    <a href="/ui/workbench/requirements/{{ job.id }}/download/">下载</a>
+                </li>
+                {% empty %}
+                <li>暂无任务</li>
+                {% endfor %}
+            </ul>
+        </article>
+    </section>
+
+    <section class="grid">
+        <article class="panel">
+            <h2>最近脚本版本</h2>
+            <ul class="list">
+                {% for version in script_versions %}
+                <li>
+                    <strong>V{{ version.version }}</strong>
+                    <span>{{ version.script_file.name }}</span>
+                </li>
+                {% empty %}
+                <li>暂无版本</li>
+                {% endfor %}
+            </ul>
+        </article>
+
+        <article class="panel">
+            <h2>最近执行记录</h2>
+            <ul class="list">
+                {% for execution in executions %}
+                <li>
+                    <strong>#{{ execution.id }}</strong>
+                    <span>{{ execution.status }}</span>
+                    <a href="/ui/workbench/reports/{{ execution.id }}/download/">下载报告</a>
+                </li>
+                {% empty %}
+                <li>暂无执行记录</li>
+                {% endfor %}
+            </ul>
+        </article>
+    </section>
+</main>
+{% endblock %}

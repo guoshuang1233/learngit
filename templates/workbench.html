@@ -1,0 +1,66 @@
+{% extends "base.html" %}
+{% block title %}AI 测试一体化工作台{% endblock %}
+{% block content %}
+<div class="page-shell">
+    <header class="hero">
+        <h1>AI 测试一体化工作台</h1>
+        <p class="hero-desc">上传需求文档 → AI 自动生成测试用例 → 自动下载 XLSX</p>
+    </header>
+
+    {% if messages %}
+    <section class="message-stack">
+        {% for message in messages %}
+        <div class="message message-{{ message.tags|default:'info' }}">{{ message }}</div>
+        {% endfor %}
+    </section>
+    {% endif %}
+
+    <section class="workflow-grid">
+        <article class="panel">
+            <div class="panel-head"><h2>需求文档 → 测试用例</h2></div>
+            <form class="async-form" enctype="multipart/form-data" id="form-requirement"
+                  data-submit-url="{% url 'api-requirement-submit' %}"
+                  data-status-url-template="/api/requirements/jobs/__JOB_ID__/status/"
+                  data-download-url-template="/api/ui/workbench/requirements/__JOB_ID__/download/">
+                {% csrf_token %}
+                <input type="hidden" name="run_async" value="true">
+                <div class="field"><label>项目</label>
+                    <select name="project_id" required>
+                        <option value="">请选择项目</option>
+                        {% for project in projects %}
+                        <option value="{{ project.id }}">{{ project.name }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="field"><label>文档标题</label><input type="text" name="title"></div>
+                <div class="field field-full"><label>上传需求文档</label><input type="file" name="source_file" accept=".md,.txt,.docx"></div>
+                <div class="field field-full"><label>或直接粘贴需求文本</label><textarea name="extracted_text" rows="10" placeholder="粘贴需求文档正文"></textarea></div>
+                <div class="field field-full"><label>输出规则（可选）</label><textarea name="rule_text" rows="2" placeholder="例如：重点覆盖数据库字段校验"></textarea></div>
+                <button type="submit" class="btn btn-primary">生成测试用例</button>
+            </form>
+        </article>
+
+        <article class="panel">
+            <div class="panel-head"><h2>测试用例 + 接口文档 → pytest 脚本</h2></div>
+            <form class="async-form" method="post" enctype="multipart/form-data" action="{% url 'workbench-script-submit' %}">
+                {% csrf_token %}
+                <div class="field"><label>项目</label>
+                    <select name="project_id" required>
+                        <option value="">请选择项目</option>
+                        {% for project in projects %}
+                        <option value="{{ project.id }}">{{ project.name }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="field"><label>测试集标题</label><input type="text" name="suite_title"></div>
+                <div class="field field-full"><label>上传测试用例</label><input type="file" name="suite_file"></div>
+                <div class="field field-full"><label>上传接口文档</label><input type="file" name="api_file"></div>
+                <button type="submit" class="btn btn-primary">生成 pytest 脚本</button>
+            </form>
+        </article>
+    </section>
+</div>
+{% endblock %}
+{% block scripts %}
+<script src="/static/js/workbench_async.js"></script>
+{% endblock %}
