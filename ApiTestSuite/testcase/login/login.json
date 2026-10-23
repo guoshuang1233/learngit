@@ -1,0 +1,10 @@
+{
+  "SuperAdmin_login": {
+    "TC": "SuperAdmin登录",
+    "testData": {
+      "userName": "&{SuperAdmin_name}",
+      "passWord": "&{SuperAdmin_pwd}",
+      "system": "xms"
+    }
+  }
+}

@@ -1,0 +1,253 @@
+{
+  "saveStrategy": {
+    "TC": "saveStrategy",
+    "testData": {
+      "name": "autotest1",
+      "description_cn": "autotest1",
+      "description_en": "autotest1",
+      "rules": [
+        {
+          "min": 0,
+          "max": 6,
+          "value": 2
+        },
+        {
+          "min": 7,
+          "max": null,
+          "value": 5
+        }
+      ]
+    }
+  },
+  "getStrategyDetail": {
+    "TC": "getStrategyDetail",
+    "testData": {
+      "id": "&{Strategyid}",
+      "dataSourceId": "0",
+      "whCode": "{\"rules\":[{\"min\":0,\"max\":6,\"value\":2},{\"min\":7,\"max\":null,\"value\":5}],\"defaultValue\":-1024}",
+      "whName": "&{whName}"
+    }
+  },
+  "saveStrategy_1": {
+    "TC": "saveStrategy_1",
+    "testData": {
+      "id": "&{Strategyid}",
+      "name": "",
+      "description_cn": "autotest1",
+      "description_en": "autotest1",
+      "rules": [
+        {
+          "min": 0,
+          "max": 6,
+          "value": 2
+        },
+        {
+          "min": 7,
+          "max": null,
+          "value": 9
+        }
+      ]
+    }
+  },
+  "page": {
+    "TC": "page",
+    "testData": {
+      "current": 1,
+      "pageSize": 20,
+      "keyword": "",
+      "orderStatus": [],
+      "creationTime": null,
+      "carrierId": []
+    }
+  },
+  "warehouse": {
+    "TC": "warehouse",
+    "testData": {
+      "current": 1,
+      "keyword": "",
+      "pageSize": 20,
+      "orderStatus": [],
+      "creationTime": null,
+      "carrierId": [],
+      "id": "&{warehouseid}"
+    }
+  },
+  "getRelationShipList": {
+    "TC": "getRelationShipList",
+    "testData": {
+      "current": 1,
+      "keyword": "",
+      "pageSize": 20,
+      "creationTime": null
+    }
+  },
+  "getRelationShipDetail": {
+    "TC": "getRelationShipDetail",
+    "testData": {
+      "id": "&{RelationShipid}",
+      "dataSourceId": "undefined",
+      "whCode": "autotest",
+      "whName": "autotest"
+    }
+  },
+  "updateRelationShip": {
+    "TC": "updateRelationShip",
+    "testData": {
+      "whCode": "autotest",
+      "whName": "autotest",
+      "wmsList": [
+        {
+          "wmsWhCode": "&{warehouseCode0}",
+          "wmsWhName": "&{warehouseName0}"
+        },
+        {
+          "wmsWhCode": "&{warehouseCode1}",
+          "wmsWhName": "&{warehouseName1}"
+        }
+      ]
+    }
+  },
+  "updateRelationShip_2": {
+    "TC": "updateRelationShip_2",
+    "testData": {
+      "id": "&{RelationShipid}",
+      "whCode": "&{eidt_whCode}",
+      "whName": "&{eidt_whName}",
+      "dataSourceId": "0",
+      "wmsList": [
+        {
+          "wmsWhCode": "&{warehouseCode0}",
+          "wmsWhName": "&{warehouseName0}"
+        }
+      ]
+    }
+  },
+  "getRelationShipDetail_4": {
+    "TC": "getRelationShipDetail_4",
+    "testData": {
+      "id": "&{RelationShipid}",
+      "dataSourceId": "0",
+      "whCode": "autotest",
+      "whName": "autotest"
+    }
+  },
+  "upload_s3_cms": {
+    "TC": "upload_s3_cms",
+    "testData": {
+      "file_name": "cms_wayfair_import.xlsx",
+      "bucket": "noviland-cms-test",
+      "region": "us-west-1",
+      "key_prefix": "import-sku",
+      "change_data": [
+        "店铺SKU"
+      ]
+    }
+  },
+  "excelImportSkus": {
+    "TC": "excelImportSkus",
+    "testData": {
+      "internalFilename": "cms_wayfair_import.xlsx",
+      "channelId": "&{cms_channelId}",
+      "accountId": "&{cms_accountId}",
+      "originalFilename": "cms_wayfair_import.xlsx"
+    }
+  },
+  "pageSKUS_5": {
+    "TC": "pageSKUS_5",
+    "testData": {
+      "current": 1,
+      "keyword": "autotest",
+      "pageSize": 20,
+      "orderStatus": [],
+      "creationTime": null,
+      "carrierId": [],
+      "searchMode": "fuzzy"
+    }
+  },
+  "closeSKUsImport_1": {
+    "TC": "closeSKUsImport_1",
+    "testData": {
+      "uuids": [
+        "&{cms_order_uuid}"
+      ]
+    }
+  },
+  "openSKUsImport_1": {
+    "TC": "openSKUsImport_1",
+    "testData": {
+      "uuids": [
+        "&{cms_order_uuid}"
+      ]
+    }
+  },
+  "updatePmsSku": {
+    "TC": "updatePmsSku",
+    "testData": {
+      "isCombinedProduct": 0,
+      "pmsSku": "&{cms_order_pmsSku}",
+      "id": "&{cms_order_id}"
+    }
+  },
+  "modifyInventorySyncStrategy": {
+    "TC": "modifyInventorySyncStrategy",
+    "testData": {
+      "skuIds": [
+        "&{cms_order_id}"
+      ],
+      "strategyId": "&{Strategyid}"
+    }
+  },
+  "pageExportLog": {
+    "TC": "pageExportLog",
+    "testData": {
+      "pageSize": 5,
+      "current": 1
+    }
+  },
+  "skuDetail": {
+    "TC": "skuDetail",
+    "testData": {
+      "uuid": "&{cms_order_uuid}",
+      "skuId": "&{cms_order_id}"
+    }
+  },
+  "getCmsWarehouseList": {
+    "TC": "getCmsWarehouseList_1",
+    "testData": {
+      "keyword": "giga"
+    }
+  },
+  "editCmsWarehouse": {
+    "TC": "editCmsWarehouse",
+    "testData": {
+      "skuId": "&{cms_order_id}",
+      "warehouseEntities": [
+        {
+          "id": "&{edit_warehouseid}",
+          "whCode": "&{edit_whCode}",
+          "whName": "&{}",
+          "isSum": "&{edit_whName}",
+          "deleted": 0,
+          "createTime": "&{edit_createTime}",
+          "updateTime": "&{edit_updateTime}"
+        }
+      ]
+    }
+  },
+  "pullDisInventoryAvaliableQuantity": {
+    "TC": "pullDisInventoryAvaliableQuantity",
+    "testData": {
+      "distributeInventoryId": "&{distributeInventoryId}"
+    }
+  },
+  "pageDistributeInventoryLogs": {
+    "TC": "pageDistributeInventoryLogs",
+    "testData": {
+      "current": 1,
+      "pageSize": 10,
+      "uuid": "&{cms_order_uuid}",
+      "pageNumber": 1,
+      "skuInventoryDistributionId": ""
+    }
+  }
+}

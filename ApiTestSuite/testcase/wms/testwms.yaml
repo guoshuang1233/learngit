@@ -1,0 +1,493 @@
+- case_name: listInventory
+  markers: [wms]
+  url_prefix: base_url
+  url: api-wms/app/wms/inventory/listInventory
+  method: POST
+  data_method: json
+  is_header: '&{SuperAdmin_token}'
+  deal_data:
+  request_data: testwms:listInventory
+  sql:
+  validate:
+   - contains: ['res', success]
+   - contains: ['res', inventoryUuid]
+  output:
+    inventoryUuid: data.list.[0].inventoryUuid
+
+- case_name: getInventoryDetail
+  markers: [wms]
+  url_prefix: base_url
+  url: api-wms/app/wms/inventory/getInventoryDetail
+  method: POST
+  data_method: json
+  is_header: '&{SuperAdmin_token}'
+  deal_data:
+  request_data: testwms:getInventoryDetail
+  sql:
+  validate:
+   - contains: ['res', success]
+   - contains: ['res', factorySku]
+  output:
+    skuInventoryId: data.detail.id
+
+- case_name: inventoryList
+  markers: [wms]
+  url_prefix: base_url
+  url: api-wms/app/wms/inventory/inventoryList
+  method: POST
+  data_method: json
+  is_header: '&{SuperAdmin_token}'
+  deal_data:
+  request_data: testwms:inventoryList
+  sql:
+  validate:
+   - contains: ['res', success]
+   - contains: ['res', warehouseUuid]
+  output:
+    warehouseId: data.[0].id
+
+- case_name: addSkuAssosiatedWarehouse
+  markers: [wms]
+  url_prefix: base_url
+  url: api-wms/app/wms/inventory/addSkuAssosiatedWarehouse
+  method: POST
+  data_method: json
+  is_header: '&{SuperAdmin_token}'
+  deal_data:
+  request_data: testwms:addSkuAssosiatedWarehouse
+  sql:
+  validate:
+   - contains: ['res', success]
+  output:
+
+- case_name: getInventoryDetail_1
+  markers: [wms]
+  url_prefix: base_url
+  url: api-wms/app/wms/inventory/getInventoryDetail
+  method: POST
+  data_method: json
+  is_header: '&{SuperAdmin_token}'
+  deal_data:
+  request_data: testwms:getInventoryDetail
+  sql:
+  validate:
+   - contains: ['res', Lilola-CA]
+  output:
+
+- case_name: manualSyncInventory
+  markers: [wms]
+  url_prefix: base_url
+  url: api-wms/app/wms/inventory/manualSyncInventory
+  method: POST
+  data_method: json
+  is_header: '&{SuperAdmin_token}'
+  deal_data:
+  request_data: testwms:manualSyncInventory
+  sql:
+  validate:
+   - contains: ['res', 'The source does not support manual synchronization']
+  output:
+
+- case_name: listSource
+  markers: [wms]
+  url_prefix: base_url
+  url: api-wms/app/wms/inventory/listSource
+  method: POST
+  data_method: json
+  is_header: '&{SuperAdmin_token}'
+  deal_data:
+  request_data: testwms:listSource
+  sql:
+  validate:
+   - contains: ['res', success]
+  output:
+
+- case_name: wms_s3_upload
+  markers: [wms]
+  url_prefix: s3_url
+  url: "&{key_prefix}/&{file_name}"
+  method: put
+  data_method: data
+  is_header:  _s3_headers
+  deal_data: true
+  request_data: testwms:wms_s3_upload
+  sql:
+  validate:
+  output:
+
+- case_name: importInventory
+  markers: [wms]
+  url_prefix: base_url
+  url: api-wms/app/wms/inventory/importInventory
+  method: POST
+  data_method: json
+  is_header: '&{SuperAdmin_token}'
+  deal_data:
+  request_data: testwms:importInventory
+  sql:
+  validate:
+   - contains: ['res', success]
+  output:
+
+- case_name: getInventoryDetail_2
+  markers: [wms]
+  url_prefix: base_url
+  url: api-wms/app/wms/inventory/getInventoryDetail
+  method: POST
+  data_method: json
+  is_header: '&{SuperAdmin_token}'
+  deal_data:
+  request_data: testwms:getInventoryDetail
+  sql:
+  validate:
+   - contains: ['res', success]
+   - contains: ['res', inventoryUuid]
+  output:
+   skuInventoryDistributionId: data.inventoryDistribution.result.[0].id
+
+- case_name: listInventoryDistributionStatement
+  markers: [wms]
+  url_prefix: base_url
+  url: api-wms/app/wms/inventory/listInventoryDistributionStatement
+  method: POST
+  data_method: json
+  is_header: '&{SuperAdmin_token}'
+  deal_data:
+  request_data: testwms:listInventoryDistributionStatement
+  sql:
+  validate:
+   - contains: ['res', success]
+  output:
+
+- case_name: deleteSkuAssosiatedWarehouse
+  markers: [wms]
+  url_prefix: base_url
+  url: api-wms/app/wms/inventory/deleteSkuAssosiatedWarehouse
+  method: POST
+  data_method: json
+  is_header: '&{SuperAdmin_token}'
+  deal_data:
+  request_data: testwms:deleteSkuAssosiatedWarehouse
+  sql:
+  validate:
+   - contains: ['res', success]
+  output:
+
+- case_name: getInventoryDetail_3
+  markers: [wms]
+  url_prefix: base_url
+  url: api-wms/app/wms/inventory/getInventoryDetail
+  method: POST
+  data_method: json
+  is_header: '&{SuperAdmin_token}'
+  deal_data:
+  request_data: testwms:getInventoryDetail
+  sql:
+  validate:
+   - contains: ['res', success]
+  output:
+
+- case_name: bulkAssignWarehouse
+  markers: [wms]
+  url_prefix: base_url
+  url: api-wms/app/wms/inventory/bulkAssignWarehouse
+  method: POST
+  data_method: json
+  is_header: '&{SuperAdmin_token}'
+  deal_data:
+  request_data: testwms:bulkAssignWarehouse
+  sql:
+  validate:
+   - contains: ['res', success]
+  output:
+
+- case_name: getInventoryDetail_4
+  markers: [wms]
+  url_prefix: base_url
+  url: api-wms/app/wms/inventory/getInventoryDetail
+  method: POST
+  data_method: json
+  is_header: '&{SuperAdmin_token}'
+  deal_data:
+  request_data: testwms:getInventoryDetail
+  sql:
+  validate:
+   - contains: ['res', success]
+   - contains: ['res', Lilola-CA]
+  output:
+
+- case_name: importInventory_4
+  markers: [wms]
+  url_prefix: base_url
+  url: api-wms/app/wms/inventory/importInventory
+  method: POST
+  data_method: json
+  is_header: '&{SuperAdmin_token}'
+  deal_data:
+  request_data: testwms:importInventory
+  sql:
+  validate:
+   - contains: ['res', 'success']
+  output:
+
+- case_name: getInventoryDetail_5
+  markers: [wms]
+  url_prefix: base_url
+  url: api-wms/app/wms/inventory/getInventoryDetail
+  method: POST
+  data_method: json
+  is_header: '&{SuperAdmin_token}'
+  deal_data:
+  request_data: testwms:getInventoryDetail
+  sql:
+  validate:
+   - contains: ['res', 'success']
+  output:
+
+
+- case_name: pageWarehouse
+  markers: [wms]
+  url_prefix: base_url
+  url: api-wms/app/wms/warehouse/pageWarehouse
+  method: POST
+  data_method: json
+  is_header: '&{SuperAdmin_token}'
+  deal_data:
+  request_data: testwms:pageWarehouse
+  sql:
+  validate:
+   - contains: ['res', 'success']
+   - contains: ['res', 'warehouseCode']
+  output:
+
+- case_name: checkWarehouseCode
+  markers: [wms]
+  url_prefix: base_url
+  url: api-wms/app/wms/warehouse/checkWarehouseCode
+  method: POST
+  data_method: json
+  is_header: '&{SuperAdmin_token}'
+  deal_data:
+  request_data: testwms:checkWarehouseCode
+  sql:
+  validate:
+   - contains: ['res', 'success']
+  output:
+
+- case_name: checkWarehouseName
+  markers: [wms]
+  url_prefix: base_url
+  url: api-wms/app/wms/warehouse/checkWarehouseName
+  method: POST
+  data_method: json
+  is_header: '&{SuperAdmin_token}'
+  deal_data:
+  request_data: testwms:checkWarehouseName
+  sql:
+  validate:
+   - contains: ['res', 'success']
+  output:
+
+- case_name: checkSourceWarehouseCode
+  markers: [wms]
+  url_prefix: base_url
+  url: api-wms/app/wms/warehouse/checkSourceWarehouseCode
+  method: POST
+  data_method: json
+  is_header: '&{SuperAdmin_token}'
+  deal_data:
+  request_data: testwms:checkSourceWarehouseCode
+  sql:
+  validate:
+   - contains: ['res', 'success']
+  output:
+
+- case_name: checkSourceWarehouseName
+  markers: [wms]
+  url_prefix: base_url
+  url: api-wms/app/wms/warehouse/checkSourceWarehouseName
+  method: POST
+  data_method: json
+  is_header: '&{SuperAdmin_token}'
+  deal_data:
+  request_data: testwms:checkSourceWarehouseName
+  sql:
+  validate:
+   - contains: ['res', 'success']
+  output:
+
+- case_name: addWarehouse
+  markers: [wms]
+  url_prefix: base_url
+  url: api-wms/app/wms/warehouse/addWarehouse
+  method: POST
+  data_method: json
+  is_header: '&{SuperAdmin_token}'
+  deal_data:
+  request_data: testwms:addWarehouse
+  sql:
+  validate:
+   - contains: ['res', 'success']
+  output:
+
+- case_name: pageWarehouse_2
+  markers: [wms]
+  url_prefix: base_url
+  url: api-wms/app/wms/warehouse/pageWarehouse
+  method: POST
+  data_method: json
+  is_header: '&{SuperAdmin_token}'
+  deal_data:
+  request_data: testwms:pageWarehouse_2
+  sql:
+  validate:
+   - contains: ['res', 'success']
+   - equals: ['data.formatList.[0].sourceWarehouseCode',"autotest"]
+  output:
+
+- case_name: queryWarehouse
+  markers: [wms]
+  url_prefix: base_url
+  url: api-wms/app/wms/warehouse/queryWarehouse
+  method: POST
+  data_method: json
+  is_header: '&{SuperAdmin_token}'
+  deal_data:
+  request_data: testwms:queryWarehouse
+  sql:
+  validate:
+   - contains: ['res', 'success']
+   - equals: [data.sourceWarehouseCode,"autotest"]
+  output:
+    warehouseid: data.id
+    sourceWarehouseId: data.sourceWarehouseId
+
+- case_name: editWarehouse
+  markers: [wms]
+  url_prefix: base_url
+  url: api-wms/app/wms/warehouse/editWarehouse
+  method: POST
+  data_method: json
+  is_header: '&{SuperAdmin_token}'
+  deal_data:
+  request_data: testwms:editWarehouse
+  sql:
+  validate:
+   - contains: ['res', 'success']
+  output:
+
+- case_name: queryWarehouse
+  markers: [wms]
+  url_prefix: base_url
+  url: api-wms/app/wms/warehouse/queryWarehouse
+  method: POST
+  data_method: json
+  is_header: '&{SuperAdmin_token}'
+  deal_data:
+  request_data: testwms:queryWarehouse
+  sql:
+  validate:
+   - contains: ['res', 'success']
+   - contains: ['res', '77777']
+  output:
+
+- case_name: deleteWarehouse
+  markers: [wms]
+  url_prefix: base_url
+  url: api-wms/app/wms/warehouse/deleteWarehouse
+  method: POST
+  data_method: json
+  is_header: '&{SuperAdmin_token}'
+  deal_data:
+  request_data: testwms:deleteWarehouse
+  sql:
+  validate:
+   - contains: ['res', 'success']
+  output:
+
+- case_name: pageWarehouse_4
+  markers: [wms]
+  url_prefix: base_url
+  url: api-wms/app/wms/warehouse/pageWarehouse
+  method: POST
+  data_method: json
+  is_header: '&{SuperAdmin_token}'
+  deal_data:
+  request_data: testwms:pageWarehouse_4
+  sql:
+  validate:
+   - contains: ['res', 'success']
+   - equals: [data.total, 0]
+  output:
+
+- case_name: warehouse
+  markers: [wms]
+  url_prefix: base_url
+  url: api-wms/app/wms/inventory/listInventory/warehouse
+  method: POST
+  data_method: json
+  is_header: '&{SuperAdmin_token}'
+  deal_data:
+  request_data: testwms:warehouse
+  sql:
+  validate:
+   - contains: ['res', 'success']
+   - contains: ['res', 'skuInventoryId']
+  output:
+
+- case_name: listWarehouse_1
+  markers: [wms]
+  url_prefix: base_url
+  url: api-wms/app/wms/inventory/listWarehouse
+  method: POST
+  data_method:
+  is_header: '&{SuperAdmin_token}'
+  deal_data:
+  request_data:
+  sql:
+  validate:
+   - contains: ['res', 'success']
+  output:
+
+- case_name: warehouse_3
+  markers: [wms]
+  url_prefix: base_url
+  url: api-wms/app/wms/inventory/listInventory/warehouse
+  method: POST
+  data_method: json
+  is_header: '&{SuperAdmin_token}'
+  deal_data:
+  request_data: testwms:warehouse_3
+  sql:
+  validate:
+   - contains: ['res', 'success']
+  output:
+
+- case_name: warehouse_4
+  markers: [wms]
+  url_prefix: base_url
+  url: api-wms/app/wms/inventory/listInventory/warehouse
+  method: POST
+  data_method: json
+  is_header: '&{SuperAdmin_token}'
+  deal_data:
+  request_data: testwms:warehouse_4
+  sql:
+  validate:
+   - contains: ['res', 'success']
+  output:
+
+- case_name: warehouse_5
+  markers: [wms]
+  url_prefix: base_url
+  url: api-wms/app/wms/inventory/listInventory/warehouse
+  method: POST
+  data_method: json
+  is_header: '&{SuperAdmin_token}'
+  deal_data:
+  request_data: testwms:warehouse_5
+  sql:
+  validate:
+   - contains: ['res', 'success']
+  output:
+

@@ -1,0 +1,397 @@
+- case_name: upload_s3_pms_product
+  markers: [pms]
+  url_prefix: s3_url
+  url: "&{key_prefix}/&{file_name}"
+  method: put
+  data_method: data
+  is_header:  _s3_headers
+  deal_data: true
+  request_data: testpms:upload_s3_pms_product
+  sql:
+  validate:
+  output:
+
+- case_name: importProduct-new
+  markers: [pms]
+  url_prefix: base_url
+  url: api-pms/app/pms/product/importProduct
+  method: POST
+  data_method: json
+  is_header: '&{SuperAdmin_token}'
+  deal_data:
+  request_data: testpms:importProduct-new
+  sql:
+  validate:
+    - contains: [ 'res', 'OK' ]
+  output:
+
+- case_name: importProduct-update
+  markers: [pms]
+  url_prefix: base_url
+  url: api-pms/app/pms/product/importProduct
+  method: POST
+  data_method: json
+  is_header: '&{SuperAdmin_token}'
+  deal_data:
+  request_data: testpms:importProduct-update
+  sql:
+  validate:
+    - contains: [ 'res', 'OK' ]
+  output:
+
+- case_name: getUserPermissionData
+  markers: [pms]
+  url_prefix: base_url
+  url: api-pms/app/ums/ums/getUserPermissionData
+  method: POST
+  data_method: json
+  is_header: '&{SuperAdmin_token}'
+  deal_data:
+  request_data: testpms:getUserPermissionData
+  sql:
+  validate:
+    - contains: [ 'res', success ]
+    - contains: [ 'res', Giga ]
+  output:
+
+- case_name: getProductPageList
+  markers: [pms]
+  url_prefix: base_url
+  url: api-pms/app/pms/product/getProductPageList
+  method: POST
+  data_method: json
+  is_header: '&{SuperAdmin_token}'
+  deal_data:
+  request_data: testpms:getProductPageList
+  sql:
+  validate:
+    - contains: [ 'res', 'success' ]
+    - contains: [ 'res', 'autotest' ]
+  output:
+
+- case_name: getUserPermissionData_1
+  markers: [pms]
+  url_prefix: base_url
+  url: api-pms/app/ums/ums/getUserPermissionData
+  method: POST
+  data_method: json
+  is_header: '&{SuperAdmin_token}'
+  deal_data:
+  request_data: testpms:getUserPermissionData_1
+  sql:
+  validate:
+    - contains: [ 'res', 'success' ]
+  output:
+
+- case_name: upload_s3_pms_cost
+  markers: [pms]
+  url_prefix: s3_url
+  url: "&{key_prefix}/&{file_name}"
+  method: put
+  data_method: data
+  is_header:  _s3_headers
+  deal_data: true
+  request_data: testpms:upload_s3_pms_cost
+  sql:
+  validate:
+  output:
+
+- case_name: importProductPriceCost
+  markers: [pms]
+  url_prefix: base_url
+  url: api-pms/app/pms/product/importProductPrice
+  method: POST
+  data_method: json
+  is_header: '&{SuperAdmin_token}'
+  deal_data:
+  request_data: testpms:importProductPriceCost
+  sql:
+  validate:
+    - contains: [ 'res', 'success' ]
+  output:
+
+- case_name: upload_s3_pms_discount
+  markers: [pms]
+  url_prefix: s3_url
+  url: "&{key_prefix}/&{file_name}"
+  method: put
+  data_method: data
+  is_header:  _s3_headers
+  deal_data: true
+  request_data: testpms:upload_s3_pms_discount
+  sql:
+  validate:
+  output:
+
+- case_name: importProductPriceDiscount
+  markers: [pms]
+  url_prefix: base_url
+  url: api-pms/app/pms/product/importProductPrice
+  method: POST
+  data_method: json
+  is_header: '&{SuperAdmin_token}'
+  deal_data:
+  request_data: testpms:importProductPriceDiscount
+  sql:
+  validate:
+    - contains: [ 'res', 'success' ]
+  output:
+
+- case_name: getProductPageList_3
+  markers: [pms]
+  url_prefix: base_url
+  url: api-pms/app/pms/product/getProductPageList
+  method: POST
+  data_method: json
+  is_header: '&{SuperAdmin_token}'
+  deal_data:
+  request_data: testpms:getProductPageList_3
+  sql:
+  validate:
+    - contains: [ 'res', 'success' ]
+  output:
+    orderid: data.list.[0].id
+
+- case_name: getProductPrice
+  markers: [pms]
+  url_prefix: base_url
+  url: api-pms/app/pms/product/getProductPrice
+  method: POST
+  data_method: json
+  is_header: '&{SuperAdmin_token}'
+  deal_data:
+  request_data: testpms:getProductPrice
+  sql:
+  validate:
+    - contains: [ 'res', 'success' ]
+    - contains: [ 'res', 'effectiveDate' ]
+  output:
+
+- case_name: getDetail
+  markers: [pms]
+  url_prefix: base_url
+  url: api-pms/app/pms/product/getDetail
+  method: POST
+  data_method: json
+  is_header: '&{SuperAdmin_token}'
+  deal_data:
+  request_data: testpms:getDetail
+  sql:
+  validate:
+    - contains: [ 'res', 'success' ]
+    - contains: [ 'res', 'novilandProductId' ]
+  output:
+    novilandProductId: data.novilandProductId
+
+- case_name: queryProductPriceHistory
+  markers: [pms]
+  url_prefix: base_url
+  url: api-pms/app/pms/product/queryProductPriceHistory
+  method: POST
+  data_method: json
+  is_header: '&{SuperAdmin_token}'
+  deal_data:
+  request_data: testpms:queryProductPriceHistory
+  sql:
+  validate:
+    - contains: [ 'res', 'success' ]
+    - contains: [ 'res', 'productDiscountPrices' ]
+  output:
+
+- case_name: updateProductStatus
+  markers: [pms]
+  url_prefix: base_url
+  url: api-pms/app/pms/product/updateProductStatus
+  method: POST
+  data_method: json
+  is_header: '&{SuperAdmin_token}'
+  deal_data:
+  request_data: testpms:updateProductStatus
+  sql:
+  validate:
+    - contains: [ 'res', 'success' ]
+  output:
+
+- case_name: getProductPageList_5
+  markers: [pms]
+  url_prefix: base_url
+  url: api-pms/app/pms/product/getProductPageList
+  method: POST
+  data_method: json
+  is_header: '&{SuperAdmin_token}'
+  deal_data:
+  request_data: testpms:getProductPageList_5
+  sql:
+  validate:
+    - contains: [ 'res', 'success' ]
+    - contains: [ 'res', 'active' ]
+  output:
+
+- case_name: updateProduct
+  markers: [pms]
+  url_prefix: base_url
+  url: api-pms/app/pms/product/updateProduct
+  method: POST
+  data_method: json
+  is_header: '&{SuperAdmin_token}'
+  deal_data: True
+  request_data: testpms:updateProduct
+  sql:
+  validate:
+    - contains: [ 'res', 'success' ]
+  output:
+
+- case_name: getDetail_2
+  markers: [pms]
+  url_prefix: base_url
+  url: api-pms/app/pms/product/getDetail
+  method: POST
+  data_method: json
+  is_header: '&{SuperAdmin_token}'
+  deal_data:
+  request_data: testpms:getDetail_2
+  sql:
+  validate:
+    - contains: [ 'res', 'success' ]
+    - contains: [ 'res', 'test-factory' ]
+  output:
+
+- case_name: getProductBundlePageList
+  markers: [pms]
+  url_prefix: base_url
+  url: api-pms/app/pms/product/getProductBundlePageList
+  method: POST
+  data_method: json
+  is_header: '&{SuperAdmin_token}'
+  deal_data:
+  request_data: testpms:getProductBundlePageList
+  sql:
+  validate:
+   - contains: ['res', success]
+   - contains: ['res', bundleSku]
+  output:
+
+- case_name: verifyBundle
+  markers: [pms]
+  url_prefix: base_url
+  url: api-pms/app/pms/product/verifyBundle
+  method: POST
+  data_method:
+  is_header: '&{SuperAdmin_token}'
+  deal_data:
+  request_data:
+  sql:
+  validate:
+   - contains: ['res', success]
+  output:
+
+- case_name: getActiveProductsBySku
+  markers: [pms]
+  url_prefix: base_url
+  url: api-pms/app/pms/product/getActiveProductsBySku
+  method: POST
+  data_method: json
+  is_header: '&{SuperAdmin_token}'
+  deal_data:
+  request_data: testpms:getActiveProductsBySku
+  sql:
+  validate:
+   - contains: ['res', productId]
+   - contains: ['res', autotest]
+  output:
+    sku: list.[0].sku
+    productId: list.[0].productId
+    source: list.[0].source
+    productName: list.[0].productId
+
+
+- case_name: createBundle
+  markers: [pms]
+  url_prefix: base_url
+  url: api-pms/app/pms/product/createBundle
+  method: POST
+  data_method: json
+  is_header: '&{SuperAdmin_token}'
+  deal_data:
+  request_data: testpms:createBundle
+  sql:
+  validate:
+   - contains: ['res', success]
+  output:
+
+- case_name: getProductBundlePageList_1
+  markers: [pms]
+  url_prefix: base_url
+  url: api-pms/app/pms/product/getProductBundlePageList
+  method: POST
+  data_method: json
+  is_header: '&{SuperAdmin_token}'
+  deal_data:
+  request_data: testpms:getProductBundlePageList_1
+  sql:
+  validate:
+   - contains: ['res', success]
+   - contains: ['res', autotestzhp]
+  output:
+
+- case_name: getBundleDetail
+  markers: [pms]
+  url_prefix: base_url
+  url: api-pms/app/pms/product/getBundleDetail
+  method: POST
+  data_method: json
+  is_header: '&{SuperAdmin_token}'
+  deal_data:
+  request_data: testpms:getBundleDetail
+  sql:
+  validate:
+   - contains: ['res', success]
+   - contains: ['res', autotest]
+  output:
+    sku: data.skuList.[0].sku
+    productId: data.skuList.[0].productId
+    source: data.skuList.[0].source
+    productName: data.skuList.[0].productId
+    skuNum: data.skuList.[0].skuNum
+
+- case_name: updateBundle
+  markers: [pms]
+  url_prefix: base_url
+  url: api-pms/app/pms/product/updateBundle
+  method: POST
+  data_method: json
+  is_header: '&{SuperAdmin_token}'
+  deal_data:
+  request_data: testpms:updateBundle
+  sql:
+  validate:
+   - contains: ['res', success]
+  output:
+
+- case_name: deleteBundle
+  markers: [pms]
+  url_prefix: base_url
+  url: api-pms/app/pms/product/deleteBundle
+  method: POST
+  data_method: json
+  is_header: '&{SuperAdmin_token}'
+  deal_data:
+  request_data: testpms:deleteBundle
+  sql:
+  validate:
+   - contains: ['res', success]
+  output:
+
+- case_name: getProductBundlePageList_4
+  markers: [pms]
+  url_prefix: base_url
+  url: api-pms/app/pms/product/getProductBundlePageList
+  method: POST
+  data_method: json
+  is_header: '&{SuperAdmin_token}'
+  deal_data:
+  request_data: testpms:getProductBundlePageList_4
+  sql:
+  validate:
+   - equals: [data.total,0]
+  output:

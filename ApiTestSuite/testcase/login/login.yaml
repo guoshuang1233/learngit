@@ -1,0 +1,16 @@
+- case_name: 正常SuperAdmin账号登录-客户侧
+  markers: [login,order(1)]
+  url_prefix: base_url
+  url: api-ums/app/ums/ums/login
+  method: post
+  data_method: data
+  is_header:
+  deal_data:
+  request_data: login:SuperAdmin_login
+  sql:
+  validate:
+    - contains: [ res, loginAccount ]
+  output:
+    SuperAdmin_token: data.token
+
+

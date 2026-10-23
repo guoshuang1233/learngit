@@ -1,0 +1,562 @@
+- case_name: saveStrategy
+  markers: [cms]
+  url_prefix: base_url
+  url: api-cms/app/cms/cms/saveStrategy
+  method: POST
+  data_method: json
+  is_header: '&{SuperAdmin_token}'
+  deal_data: true
+  request_data: testcms:saveStrategy
+  sql:
+  validate:
+    - contains: [ 'res', success ]
+  output:
+
+- case_name: getStrategyList
+  markers: [cms]
+  url_prefix: base_url
+  url: api-cms/app/cms/cms/getStrategyList
+  method: GET
+  data_method:
+  is_header: '&{SuperAdmin_token}'
+  deal_data:
+  request_data:
+  sql:
+  validate:
+    - contains: [ 'res', success ]
+    - contains: [ 'res', autotest ]
+  output:
+    Strategyid: data.[0].id
+    whCode: data.[0].content
+    whName: data.[0].name
+
+- case_name: getStrategyDetail
+  markers: [cms]
+  url_prefix: base_url
+  url: api-cms/app/cms/cms/getStrategyDetail
+  method: POST
+  data_method: json
+  is_header: '&{SuperAdmin_token}'
+  deal_data:
+  request_data: testcms:getStrategyDetail
+  sql:
+  validate:
+    - contains: [ 'res', success ]
+    - contains: [ 'res', autotest ]
+  output:
+
+- case_name: saveStrategy_1
+  markers: [cms]
+  url_prefix: base_url
+  url: api-cms/app/cms/cms/saveStrategy
+  method: POST
+  data_method: json
+  is_header: '&{SuperAdmin_token}'
+  deal_data:
+  request_data: testcms:saveStrategy_1
+  sql:
+  validate:
+    - contains: [ 'res', success ]
+  output:
+
+- case_name: getStrategyDetail_1
+  markers: [cms]
+  url_prefix: base_url
+  url: api-cms/app/cms/cms/getStrategyDetail
+  method: POST
+  data_method: json
+  is_header: '&{SuperAdmin_token}'
+  deal_data:
+  request_data: testcms:getStrategyDetail
+  sql:
+  validate:
+    - contains: [ 'res', success ]
+    - contains: [ 'res', 9 ]
+  output:
+
+- case_name: getStrategyList_1
+  markers: [cms]
+  url_prefix: base_url
+  url: api-cms/app/cms/cms/getStrategyList
+  method: GET
+  data_method:
+  is_header: '&{SuperAdmin_token}'
+  deal_data:
+  request_data:
+  sql:
+  validate:
+    - contains: [ 'res', success ]
+  output:
+
+- case_name: queryChannelAndAccount
+  markers: [cms]
+  url_prefix: base_url
+  url: api-cms/app/cms/cms/queryChannelAndAccount
+  method: POST
+  data_method:
+  is_header: '&{SuperAdmin_token}'
+  deal_data:
+  request_data:
+  sql:
+  validate:
+    - contains: [ 'res', success ]
+    - contains: [ 'res', channels ]
+  output:
+
+- case_name: page
+  markers: [cms]
+  url_prefix: base_url
+  url: api-cms/app/cms/cms/sku/inventory/page
+  method: POST
+  data_method: json
+  is_header: '&{SuperAdmin_token}'
+  deal_data:
+  request_data: testcms:page
+  sql:
+  validate:
+    - contains: [ 'res', success ]
+    - contains: [ 'res', uuid ]
+  output:
+    warehouseid: data.list.[0].id
+
+- case_name: warehouse
+  markers: [cms]
+  url_prefix: base_url
+  url: api-cms/app/cms/cms/sku/inventory/warehouse
+  method: POST
+  data_method: json
+  is_header: '&{SuperAdmin_token}'
+  deal_data:
+  request_data: testcms:warehouse
+  sql:
+  validate:
+    - contains: [ 'res', success ]
+    - contains: [ 'res', skuInventoryId ]
+  output:
+
+- case_name: getRelationShipList
+  markers: [cms]
+  url_prefix: base_url
+  url: api-cms/app/cms/cms/getRelationShipList
+  method: POST
+  data_method: json
+  is_header: '&{SuperAdmin_token}'
+  deal_data:
+  request_data: testcms:getRelationShipList
+  sql:
+  validate:
+    - contains: [ 'res', success ]
+    - contains: [ 'res', whCode ]
+  output:
+
+- case_name: getWmsWarehouseList
+  markers: [cms]
+  url_prefix: base_url
+  url: api-cms/app/cms/cms/getWmsWarehouseList
+  method: POST
+  data_method:
+  is_header: '&{SuperAdmin_token}'
+  deal_data:
+  request_data:
+  sql:
+  validate:
+    - contains: [ 'res', success ]
+    - contains: [ 'res', warehouseUuid ]
+  output:
+    warehouseName0: data.list.[0].warehouseName
+    warehouseCode0: data.list.[0].warehouseCode
+    warehouseName1: data.list.[1].warehouseName
+    warehouseCode1: data.list.[1].warehouseCode
+
+- case_name: getWmsSourceList
+  markers: [cms]
+  url_prefix: base_url
+  url: api-cms/app/cms/cms/getWmsSourceList
+  method: POST
+  data_method:
+  is_header: '&{SuperAdmin_token}'
+  deal_data:
+  request_data:
+  sql:
+  validate:
+    - contains: [ 'res', success ]
+    - contains: [ 'res', sourceCode ]
+  output:
+
+
+- case_name: updateRelationShip
+  markers: [cms]
+  url_prefix: base_url
+  url: api-cms/app/cms/cms/updateRelationShip
+  method: POST
+  data_method: json
+  is_header: '&{SuperAdmin_token}'
+  deal_data: true
+  request_data: testcms:updateRelationShip
+  sql:
+  validate:
+    - contains: [ 'res', success ]
+  output:
+    RelationShipid: data.id
+
+- case_name: getRelationShipDetail
+  markers: [cms]
+  url_prefix: base_url
+  url: api-cms/app/cms/cms/getRelationShipDetail
+  method: POST
+  data_method: json
+  is_header: '&{SuperAdmin_token}'
+  deal_data:
+  request_data: testcms:getRelationShipDetail
+  sql:
+  validate:
+    - contains: [ 'res', success ]
+    - contains: [ 'res', autotest ]
+  output:
+    eidt_whCode: data.[0].whCode
+    eidt_whName: data.[0].whName
+
+- case_name: updateRelationShip_2
+  markers: [cms]
+  url_prefix: base_url
+  url: api-cms/app/cms/cms/updateRelationShip
+  method: POST
+  data_method: json
+  is_header: '&{SuperAdmin_token}'
+  deal_data:
+  request_data: testcms:updateRelationShip_2
+  sql:
+  validate:
+    - contains: [ 'res', success ]
+  output:
+
+- case_name: getRelationShipDetail_4
+  markers: [cms]
+  url_prefix: base_url
+  url: api-cms/app/cms/cms/getRelationShipDetail
+  method: POST
+  data_method: json
+  is_header: '&{SuperAdmin_token}'
+  deal_data:
+  request_data: testcms:getRelationShipDetail_4
+  sql:
+  validate:
+    - contains: [ 'res', success ]
+  output:
+
+- case_name: getSupplierList
+  markers: [cms]
+  url_prefix: base_url
+  url: api-cms/app/cms/cms/getSupplierList
+  method: GET
+  data_method:
+  is_header: '&{SuperAdmin_token}'
+  deal_data:
+  request_data:
+  sql:
+  validate:
+    - contains: [ 'res', success ]
+    - contains: [ 'res', Giga ]
+  output:
+
+- case_name: getChannelInfo
+  markers: [cms]
+  url_prefix: base_url
+  url: api-cms/app/cms/cms/getChannelInfo
+  method: GET
+  data_method:
+  is_header: '&{SuperAdmin_token}'
+  deal_data:
+  request_data:
+  sql:
+  validate:
+    - contains: [ 'res', success ]
+    - contains: [ 'res', Amazon VC ]
+  output:
+    channelId: data -> name=Wayfair -> id
+    accountId: data -> name=Wayfair -> vcAccounts -> code=Wayfair-Nvl -> id
+
+- case_name: upload_s3_cms
+  markers: [cms]
+  url_prefix: s3_url
+  url: "&{key_prefix}/&{file_name}"
+  method: put
+  data_method: data
+  is_header:  _s3_headers
+  deal_data: true
+  request_data: testcms:upload_s3_cms
+  sql:
+  validate:
+  output:
+
+- case_name: excelImportSkus
+  markers: [cms]
+  url_prefix: base_url
+  url: api-cms/app/cms/cms/excelImportSkus
+  method: POST
+  data_method: json
+  is_header: '&{SuperAdmin_token}'
+  deal_data:
+  request_data: testcms:excelImportSkus
+  sql:
+  validate:
+    - contains: [ 'res', success ]
+  output:
+
+- case_name: pageSKUS_5
+  markers: [cms]
+  url_prefix: base_url
+  url: api-cms/app/cms/cms/pageSKUS
+  method: POST
+  data_method: json
+  is_header: '&{SuperAdmin_token}'
+  deal_data:
+  request_data: testcms:pageSKUS_5
+  sql:
+  validate:
+    - contains: [ 'res', success ]
+    - contains: [ 'res', autotest ]
+  output:
+    cms_order_uuid: data.skus.[0].uuid
+    cms_order_id: data.skus.[0].id
+    cms_order_pmsSku: data.skus.[0].pmsSku
+
+- case_name: closeSKUsImport_1
+  markers: [cms]
+  url_prefix: base_url
+  url: api-cms/app/cms/cms/closeSKUsImport
+  method: POST
+  data_method: json
+  is_header: '&{SuperAdmin_token}'
+  deal_data:
+  request_data: testcms:closeSKUsImport_1
+  sql:
+  validate:
+    - contains: [ 'res', success ]
+  output:
+
+- case_name: pageSKUS_8
+  markers: [cms]
+  url_prefix: base_url
+  url: api-cms/app/cms/cms/pageSKUS
+  method: POST
+  data_method: json
+  is_header: '&{SuperAdmin_token}'
+  deal_data:
+  request_data: testcms:pageSKUS_5
+  sql:
+  validate:
+    - contains: [ 'res', success ]
+    - equails: [ 'data.skus.[0].canImport', 0 ]
+  output:
+
+- case_name: openSKUsImport_1
+  markers: [cms]
+  url_prefix: base_url
+  url: api-cms/app/cms/cms/openSKUsImport
+  method: POST
+  data_method: json
+  is_header: '&{SuperAdmin_token}'
+  deal_data:
+  request_data: testcms:openSKUsImport_1
+  sql:
+  validate:
+    - contains: [ 'res', success ]
+  output:
+
+- case_name: pageSKUS_10
+  markers: [cms]
+  url_prefix: base_url
+  url: api-cms/app/cms/cms/pageSKUS
+  method: POST
+  data_method: json
+  is_header: '&{SuperAdmin_token}'
+  deal_data:
+  request_data: testcms:pageSKUS_5
+  sql:
+  validate:
+    - contains: [ 'res', success ]
+    - equails: [ 'data.skus.[0].canImport', 1 ]
+  output:
+
+- case_name: updatePmsSku
+  markers: [cms]
+  url_prefix: base_url
+  url: api-cms/app/cms/cms/updatePmsSku
+  method: POST
+  data_method: json
+  is_header: '&{SuperAdmin_token}'
+  deal_data:
+  request_data: testcms:updatePmsSku
+  sql:
+  validate:
+    - contains: [ 'res', success ]
+  output:
+
+- case_name: getAllStrategy
+  markers: [cms]
+  url_prefix: base_url
+  url: api-cms/app/cms/cms/getAllStrategy
+  method: GET
+  data_method:
+  is_header: '&{SuperAdmin_token}'
+  deal_data:
+  request_data:
+  sql:
+  validate:
+    - contains: [ 'res', success ]
+  output:
+    Strategyid: data.[0].id
+
+- case_name: modifyInventorySyncStrategy
+  markers: [cms]
+  url_prefix: base_url
+  url: api-cms/app/cms/cms/modifyInventorySyncStrategy
+  method: POST
+  data_method: json
+  is_header: '&{SuperAdmin_token}'
+  deal_data:
+  request_data: testcms:modifyInventorySyncStrategy
+  sql:
+  validate:
+    - contains: [ 'res', success ]
+  output:
+
+- case_name: pageSKUS_15
+  markers: [cms]
+  url_prefix: base_url
+  url: api-cms/app/cms/cms/pageSKUS
+  method: POST
+  data_method: json
+  is_header: '&{SuperAdmin_token}'
+  deal_data:
+  request_data: testcms:pageSKUS_5
+  sql:
+  validate:
+    - contains: [ 'res', success ]
+    - contains: [ 'data.skus.[0].strategy.id', "&{Strategyid}" ]
+  output:
+
+- case_name: exportVCSKUToExcel
+  markers: [cms]
+  url_prefix: base_url
+  url: api-cms/app/cms/cms/exportVCSKUToExcel
+  method: POST
+  data_method:
+  is_header: '&{SuperAdmin_token}'
+  deal_data:
+  request_data:
+  sql:
+  validate:
+    - contains: [ 'res', message ]
+  output:
+
+- case_name: pageExportLog
+  markers: [cms]
+  url_prefix: base_url
+  url: api-cms/app/cms/cms/pageExportLog
+  method: POST
+  data_method: json
+  is_header: '&{SuperAdmin_token}'
+  deal_data:
+  request_data: testcms:pageExportLog
+  sql:
+  validate:
+    - contains: [ 'res', success ]
+  output:
+
+- case_name: skuDetail
+  markers: [cms]
+  url_prefix: base_url
+  url: api-cms/app/cms/cms/skuDetail
+  method: POST
+  data_method: json
+  is_header: '&{SuperAdmin_token}'
+  deal_data:
+  request_data: testcms:skuDetail
+  sql:
+  validate:
+    - contains: [ 'res', success ]
+    - contains: [ 'res', autotest ]
+  output:
+
+- case_name: getCmsWarehouseList
+  markers: [cms]
+  url_prefix: base_url
+  url: api-cms/app/cms/cms/getCmsWarehouseList
+  method: POST
+  data_method: json
+  is_header: '&{SuperAdmin_token}'
+  deal_data:
+  request_data: testcms:getCmsWarehouseList
+  sql:
+  validate:
+    - contains: [ 'res', success ]
+  output:
+    edit_warehouseid: data.[0].id
+    edit_createTime: data.[0].createTime
+    edit_updateTime: data.[0].updateTime
+    edit_isSum: data.[0].isSum
+    edit_whCode: data.[0].whCode
+    edit_whName: data.[0].whName
+
+
+- case_name: editCmsWarehouse
+  markers: [cms]
+  url_prefix: base_url
+  url: api-cms/app/cms/cms/editCmsWarehouse
+  method: POST
+  data_method: json
+  is_header: '&{SuperAdmin_token}'
+  deal_data:
+  request_data: testcms:editCmsWarehouse
+  sql:
+  validate:
+    - contains: [ 'res', success ]
+  output:
+
+- case_name: skuDetail_4
+  markers: [cms]
+  url_prefix: base_url
+  url: api-cms/app/cms/cms/skuDetail
+  method: POST
+  data_method: json
+  is_header: '&{SuperAdmin_token}'
+  deal_data:
+  request_data: testcms:skuDetail
+  sql:
+  validate:
+    - contains: [ 'res', success ]
+  output:
+    distributeInventoryId: data.sku.distributeInventories.[0].distributeInventoryId
+
+- case_name: pullDisInventoryAvaliableQuantity
+  markers: [cms]
+  url_prefix: base_url
+  url: api-cms/app/cms/cms/pullDisInventoryAvaliableQuantity
+  method: POST
+  data_method: json
+  is_header: '&{SuperAdmin_token}'
+  deal_data:
+  request_data: testcms:pullDisInventoryAvaliableQuantity
+  sql:
+  validate:
+    - contains: [ 'res', success ]
+    - contains: [ 'res', currentAvaliableQuantity ]
+  output:
+
+- case_name: pageDistributeInventoryLogs
+  markers: [cms]
+  url_prefix: base_url
+  url: api-cms/app/cms/cms/pageDistributeInventoryLogs
+  method: POST
+  data_method: json
+  is_header: '&{SuperAdmin_token}'
+  deal_data:
+  request_data: testcms:pageDistributeInventoryLogs
+  sql:
+  validate:
+    - contains: [ 'res', success ]
+    - contains: [ 'res', distributeInventoryLogs ]
+  output:
+

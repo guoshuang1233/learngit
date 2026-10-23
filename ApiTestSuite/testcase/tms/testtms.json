@@ -1,0 +1,171 @@
+{
+  "s3_upload": {
+    "TC": "s3_upload",
+    "testData": {
+      "file_name": "tms_order.xlsx",
+      "bucket": "noviland-tms-test",
+      "region": "us-west-1",
+      "key_prefix": "tmp"
+    }
+  },
+  "s3_upload_shisuan": {
+    "TC": "s3_upload_shisuan",
+    "testData": {
+      "file_name": "tms_shisuan.xlsx",
+      "bucket": "noviland-tms-test",
+      "region": "us-west-1",
+      "key_prefix": "tmp"
+    }
+  },
+  "submitShippingCalculation": {
+    "TC": "submitShippingCalculation",
+    "testData": {
+      "weight": 1,
+      "length": 2,
+      "width": 3,
+      "toZip": 30301,
+      "height": 4,
+      "warehouseCode": "USCA003",
+      "addressType": "residential",
+      "signature": "not required",
+      "serviceCode": "",
+      "unitOfWeight": "lb"
+    }
+  },
+  "submitShippingCalculation_1": {
+    "TC": "submitShippingCalculation_1",
+    "testData": {
+      "weight": 1,
+      "length": 2,
+      "width": 3,
+      "toZip": 30301,
+      "height": 4,
+      "warehouseCode": "USCA003",
+      "addressType": "residential",
+      "signature": "regular",
+      "serviceCode": "",
+      "unitOfWeight": "lb"
+    }
+  },
+  "submitShippingCalculation_2": {
+    "TC": "submitShippingCalculation_2",
+    "testData": {
+      "weight": 1,
+      "length": 2,
+      "width": 3,
+      "toZip": 30301,
+      "height": 4,
+      "warehouseCode": "USCA003",
+      "addressType": "residential",
+      "signature": "adult",
+      "serviceCode": "",
+      "unitOfWeight": "lb"
+    }
+  },
+  "submitShippingCalculation_3": {
+    "TC": "submitShippingCalculation_3",
+    "testData": {
+      "weight": 1,
+      "length": 2,
+      "width": 3,
+      "toZip": 30301,
+      "height": 4,
+      "warehouseCode": "USCA003",
+      "addressType": "commercial",
+      "signature": "adult",
+      "serviceCode": "",
+      "unitOfWeight": "lb"
+    }
+  },
+  "bulkShippingCaculate": {
+    "TC": "bulkShippingCaculate",
+    "testData": {
+      "internalFilename": "tms_shisuan.xlsx",
+      "originalFilename": "tms_shisuan.xlsx"
+    }
+  },
+  "downLoadExcelCaculate": {
+    "TC": "downLoadExcelCaculate",
+    "testData": {
+      "fileName": "&{fileName}"
+    }
+  },
+  "listShippingOrder": {
+    "TC": "listShippingOrder",
+    "testData": {
+      "current": 1,
+      "keyword": "",
+      "pageSize": 20,
+      "orderStatus": [],
+      "creationTime": null,
+      "carrierId": [],
+      "shippingOrderUuids": [],
+      "searchField": "trackingNumber"
+    }
+  },
+  "getShippingOrderTemplate": {
+    "TC": "getShippingOrderTemplate",
+    "testData": {
+      "type": "tracking"
+    }
+  },
+  "importShippingOrders": {
+    "TC": "importShippingOrders_2",
+    "testData": {
+      "fileInfo": {
+        "internalFilename": "tms_order.xlsx",
+        "originalFilename": "tms_order.xlsx"
+      }
+    }
+  },
+  "listShippingOrder_3": {
+    "TC": "listShippingOrder_3",
+    "testData": {
+      "current": 1,
+      "keyword": "autotest",
+      "pageSize": 20,
+      "orderStatus": [],
+      "creationTime": null,
+      "carrierId": [],
+      "shippingOrderUuids": [],
+      "searchField": "customerOrderId",
+      "searchMode": "fuzzy"
+    }
+  },
+  "shippingOrderDetail": {
+    "TC": "shippingOrderDetail",
+    "testData": {
+      "shippingOrderId": "&{tms_order_id}"
+    }
+  },
+  "downloadOrders": {
+    "TC": "downloadOrders",
+    "testData": {
+      "shippingOrderIds": [
+        "&{tms_order_id}"
+      ]
+    }
+  },
+  "cancelShippingOrders": {
+    "TC": "cancelShippingOrders",
+    "testData": {
+      "orderIds": [
+        "&{tms_order_id}"
+      ]
+    }
+  },
+  "listShippingOrder_6": {
+    "TC": "listShippingOrder_6",
+    "testData": {
+      "current": 1,
+      "keyword": "autotest",
+      "pageSize": 20,
+      "orderStatus": [],
+      "creationTime": null,
+      "carrierId": [],
+      "shippingOrderUuids": [],
+      "searchField": "customerOrderId",
+      "searchMode": "fuzzy"
+    }
+  }
+}

@@ -1,0 +1,274 @@
+- case_name: upload_s3_file
+  markers: [tms]
+  url_prefix: s3_url
+  url: "&{key_prefix}/&{file_name}"
+  method: put
+  data_method: data
+  is_header:  _s3_headers
+  deal_data: true
+  request_data: testtms:s3_upload
+  sql:
+  validate:
+  output:
+
+- case_name: s3_upload_shisuan
+  markers: [tms]
+  url_prefix: s3_url
+  url: "&{key_prefix}/&{file_name}"
+  method: put
+  data_method: data
+  is_header:  _s3_headers
+  deal_data: true
+  request_data: testtms:s3_upload_shisuan
+  sql:
+  validate:
+  output:
+
+- case_name: getShippingCaculateInit
+  markers: [tms]
+  url_prefix: base_url
+  url: api-tms/app/tms/shippingCalculate/getShippingCaculateInit
+  method: GET
+  data_method:
+  is_header: '&{SuperAdmin_token}'
+  deal_data:
+  request_data:
+  sql:
+  validate:
+   - contains: ['res', warehouseList]
+   - contains: ['res', tmsShippingWarehouseId]
+  output:
+
+- case_name: submitShippingCalculation
+  markers: [tms]
+  url_prefix: base_url
+  url: api-tms/app/tms/shippingCalculate/submitShippingCalculation
+  method: POST
+  data_method: json
+  is_header: '&{SuperAdmin_token}'
+  deal_data:
+  request_data: testtms:submitShippingCalculation
+  sql:
+  validate:
+   - contains: ['res', success]
+   - contains: ['res', chargeTotal]
+  output:
+
+- case_name: submitShippingCalculation_1
+  markers: [tms]
+  url_prefix: base_url
+  url: api-tms/app/tms/shippingCalculate/submitShippingCalculation
+  method: POST
+  data_method: json
+  is_header: '&{SuperAdmin_token}'
+  deal_data:
+  request_data: testtms:submitShippingCalculation_1
+  sql:
+  validate:
+   - contains: ['res', success]
+   - contains: ['res', chargeTotal]
+  output:
+
+- case_name: submitShippingCalculation_2
+  markers: [tms]
+  url_prefix: base_url
+  url: api-tms/app/tms/shippingCalculate/submitShippingCalculation
+  method: POST
+  data_method: json
+  is_header: '&{SuperAdmin_token}'
+  deal_data:
+  request_data: testtms:submitShippingCalculation_2
+  sql:
+  validate:
+   - contains: ['res', success]
+   - contains: ['res', chargeTotal]
+  output:
+
+- case_name: submitShippingCalculation_3
+  markers: [tms]
+  url_prefix: base_url
+  url: api-tms/app/tms/shippingCalculate/submitShippingCalculation
+  method: POST
+  data_method: json
+  is_header: '&{SuperAdmin_token}'
+  deal_data:
+  request_data: testtms:submitShippingCalculation_3
+  sql:
+  validate:
+   - contains: ['res', success]
+   - contains: ['res', chargeTotal]
+  output:
+
+- case_name: getShippingCaculateExcelTemplate
+  markers: [tms]
+  url_prefix: base_url
+  url: api-tms/app/tms/shippingCalculate/getShippingCaculateExcelTemplate
+  method: GET
+  data_method:
+  is_header: '&{SuperAdmin_token}'
+  deal_data:
+  request_data:
+  sql:
+  validate:
+   - contains: ['res', xml]
+  output:
+
+- case_name: bulkShippingCaculate
+  markers: [tms]
+  url_prefix: base_url
+  url: api-tms/app/tms/shippingCalculate/bulkShippingCaculate
+  method: POST
+  data_method: json
+  is_header: '&{SuperAdmin_token}'
+  deal_data:
+  request_data: testtms:bulkShippingCaculate
+  sql:
+  validate:
+   - contains: ['res', success]
+   - contains: ['res', fileName]
+  output:
+    fileName: data.fileName
+
+- case_name: downLoadExcelCaculate
+  markers: [tms]
+  url_prefix: base_url
+  url: api-tms/app/tms/shippingCalculate/downLoadExcelCaculate
+  method: POST
+  data_method: json
+  is_header: '&{SuperAdmin_token}'
+  deal_data:
+  request_data: testtms:downLoadExcelCaculate
+  sql:
+  validate:
+   - contains: ['res', xml]
+  output:
+
+- case_name: getInitialData
+  markers: [tms]
+  url_prefix: base_url
+  url: api-tms/app/tms/shippingOrder/getInitialData
+  method: GET
+  data_method:
+  is_header: '&{SuperAdmin_token}'
+  deal_data:
+  request_data:
+  sql:
+  validate:
+   - contains: ['res', success]
+   - contains: ['res', order_status]
+  output:
+
+- case_name: listShippingOrder
+  markers: [tms]
+  url_prefix: base_url
+  url: api-tms/app/tms/shippingOrder/listShippingOrder
+  method: POST
+  data_method: json
+  is_header: '&{SuperAdmin_token}'
+  deal_data:
+  request_data: testtms:listShippingOrder
+  sql:
+  validate:
+   - contains: ['res', success]
+   - contains: ['res', shippingOrderUuid]
+  output:
+
+- case_name: getShippingOrderTemplate
+  markers: [tms]
+  url_prefix: base_url
+  url: api-tms/app/tms/shippingOrder/getShippingOrderTemplate
+  method: POST
+  data_method: json
+  is_header: '&{SuperAdmin_token}'
+  deal_data:
+  request_data: testtms:getShippingOrderTemplate
+  sql:
+  validate:
+   - contains: ['res', xml]
+  output:
+
+- case_name: importShippingOrders
+  markers: [tms]
+  url_prefix: base_url
+  url: api-tms/app/tms/shippingOrder/importShippingOrders
+  method: POST
+  data_method: json
+  is_header: '&{SuperAdmin_token}'
+  deal_data:
+  request_data: testtms:importShippingOrders
+  sql:
+  validate:
+   - contains: ['res', success]
+  output:
+
+- case_name: listShippingOrder_3
+  markers: [tms]
+  url_prefix: base_url
+  url: api-tms/app/tms/shippingOrder/listShippingOrder
+  method: POST
+  data_method: json
+  is_header: '&{SuperAdmin_token}'
+  deal_data:
+  request_data: testtms:listShippingOrder_3
+  sql:
+  validate:
+   - contains: ['data.list.[0]', autotest]
+  output:
+    tms_order_id: data.list.[0].id
+
+- case_name: shippingOrderDetail
+  markers: [tms]
+  url_prefix: base_url
+  url: api-tms/app/tms/shippingOrder/shippingOrderDetail
+  method: POST
+  data_method: json
+  is_header: '&{SuperAdmin_token}'
+  deal_data:
+  request_data: testtms:shippingOrderDetail
+  sql:
+  validate:
+   - contains: ['res', success]
+   - equals: ['data.productOrder.customerOrderId', autotest]
+  output:
+
+- case_name: downloadOrders
+  markers: [tms]
+  url_prefix: base_url
+  url: api-tms/app/tms/shippingOrder/downloadOrders
+  method: POST
+  data_method: json
+  is_header: '&{SuperAdmin_token}'
+  deal_data:
+  request_data: testtms:downloadOrders
+  sql:
+  validate:
+   - contains: ['res', success]
+  output:
+
+- case_name: cancelShippingOrders
+  markers: [tms]
+  url_prefix: base_url
+  url: api-tms/app/tms/shippingOrder/cancelShippingOrders
+  method: POST
+  data_method: json
+  is_header: '&{SuperAdmin_token}'
+  deal_data:
+  request_data: testtms:cancelShippingOrders
+  sql:
+  validate:
+   - contains: ['res', success]
+  output:
+
+- case_name: listShippingOrder_6
+  markers: [tms]
+  url_prefix: base_url
+  url: api-tms/app/tms/shippingOrder/listShippingOrder
+  method: POST
+  data_method: json
+  is_header: '&{SuperAdmin_token}'
+  deal_data:
+  request_data: testtms:listShippingOrder_6
+  sql: 
+  validate:
+   - contains: ['res', success]
+  output: 

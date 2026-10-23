@@ -1,0 +1,208 @@
+{
+  "s3_upload": {
+    "TC": "s3_upload",
+    "testData": {
+      "file_name": "oms_noviland_order.csv",
+      "bucket": "noviland-oms-test",
+      "region": "us-west-1",
+      "key_prefix": "tmp",
+      "change_data": ["Order ID"]
+    }
+  },
+  "parse-order-excel": {
+    "TC": "parse-order-excel",
+    "testData": {
+      "internalFilename": "oms_noviland_order.csv",
+      "orderSource": "noviland",
+      "originalFilename": "oms_noviland_order.csv",
+      "nacosDataId": "test-new-import"
+    }
+  },
+  "query-orders": {
+    "TC": "query-orders",
+    "testData": {
+      "current": 1,
+      "keyword": "testauto",
+      "pageSize": 20,
+      "status": [],
+      "supplierId": null,
+      "trackingStatus": [],
+      "salesChannel": [],
+      "createTime": [],
+      "skuSuppliers": [],
+      "trialStatus": [],
+      "storeNames": [],
+      "statusGroup": [],
+      "searchMode": "fuzzy",
+      "type": null
+    }
+  },
+  "query-order-detail": {
+    "TC": "query-order-detail",
+    "testData": {
+      "uuid": "&{uuid}",
+      "id": "&{id}"
+    }
+  },
+  "query-order-packages": {
+    "TC": "query-order-packages",
+    "testData": {
+      "orderId": "&{id}"
+    }
+  },
+  "update-sku-supplier": {
+    "TC": "update-sku-supplier",
+    "testData": {
+      "orderId": "&{id}",
+      "skuIds": [
+        "&{skuid}"
+      ]
+    }
+  },
+  "update-order": {
+    "TC": "update-order",
+    "testData": {
+      "order": {
+        "uuid": "&{uuid}",
+        "channelOrderId": "&{channelOrderId}",
+        "createTime": "&{createTime}",
+        "warehouseCode": "EWN",
+        "salesChannel": "Home Depot",
+        "requiredShipDate": 1697497200000,
+        "placedDate": 1763723880000,
+        "readyToShipTime": null,
+        "id": "&{id}",
+        "status": "Order Created"
+      },
+      "address": {
+        "name": "Andrew Johnson",
+        "line1": "235 3RD AVE N UNIT 267",
+        "line2": "update line2",
+        "city": "SAINT PETERSBURG",
+        "state": "FL",
+        "zipCode": "33701-3375",
+        "country": "US",
+        "phoneNumber": "6083475389",
+        "id": "&{addressid}",
+        "orderId": "&{id}"
+      },
+      "shipLabel": null,
+      "shipments": [],
+      "skus": [
+        {
+          "id": "&{skuid}",
+          "skuName": null,
+          "skuUuid": "&{skuuuid}",
+          "quantity": 1,
+          "quantityShipped": 0,
+          "unitPrice": "10.0000",
+          "supplier": [
+            "&{supplier}"
+          ],
+          "orderId": "&{id}"
+        }
+      ]
+    }
+  },
+  "supplier-add-notes": {
+    "TC": "supplier-add-notes",
+    "testData": {
+      "note": "test",
+      "order_id": "&{id}"
+    }
+  },
+  "downloadOrderByIds": {
+    "TC": "downloadOrderByIds",
+    "testData": {
+      "orderIds": [
+        "&{id}"
+      ],
+      "timeZone": "Asia/Shanghai"
+    }
+  },
+  "batchSimulationTrial": {
+    "TC": "batchSimulationTrial",
+    "testData": {
+      "orderIds": [
+        "&{id}"
+      ]
+    }
+  },
+  "downloadLogisOrders": {
+    "TC": "downloadLogisOrders",
+    "testData": {
+      "orderIds": [
+        "&{id}"
+      ]
+    }
+  },
+  "submit-order-simulation": {
+    "TC": "submit-order-simulation",
+    "testData": {
+      "orderId": "&{id}"
+    }
+  },
+  "create-order-packages": {
+    "TC": "create-order-packages",
+    "testData": {
+      "orderId": "&{id}",
+      "packages": [
+        {
+          "sku": "sku2250",
+          "pmsSkuNum": 1,
+          "subSku": "sku2250-A",
+          "subSkuId": 43238,
+          "length": "10.00",
+          "width": "10.00",
+          "height": "10.00",
+          "weight": "10.000",
+          "skuUuid": "csscsku7",
+          "serviceCode": "LF001",
+          "warehouseCode": "CA",
+          "shippingMethod": "FEDEX",
+          "tmsWarehouseCode": "USGA30529"
+        }
+      ]
+    }
+  },
+  "query-order-detail_4": {
+    "TC": "query-order-detail_4",
+    "testData": {
+      "uuid": "&{uuid}",
+      "id": "&{id}"
+    }
+  },
+  "query-order-packages_3": {
+    "TC": "query-order-packages_3",
+    "testData": {
+      "orderId": "&{id}"
+    }
+  },
+  "update-order-packages": {
+    "TC": "update-order-packages",
+    "testData": {
+      "orderId": "&{id}"
+    }
+  },
+  "export-pushable-order": {
+    "TC": "export-pushable-order",
+    "testData": {
+      "datetime": "2026-07-17 09:11:02",
+      "supplierName": "Lilola"
+    }
+  },
+  "markOrderPushedProgress": {
+    "TC": "markOrderPushedProgress",
+    "testData": {
+      "orderIds": [
+        "&{id}"
+      ]
+    }
+  },
+  "getProgress": {
+    "TC": "getProgress",
+    "testData": {
+      "taskId": "&{taskId}"
+    }
+  }
+}

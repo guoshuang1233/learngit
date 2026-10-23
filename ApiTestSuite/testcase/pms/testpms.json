@@ -1,0 +1,373 @@
+{
+  "upload_s3_pms_product": {
+    "TC": "upload_s3_pms_product",
+    "testData": {
+      "file_name": "pms_lilola_product.xlsx",
+      "bucket": "noviland-pms-test",
+      "region": "us-west-1",
+      "key_prefix": "tmp"
+    }
+  },
+  "importProduct-new": {
+    "TC": "importProduct-new",
+    "testData": {
+      "fileInfo": {
+        "internalFilename": "pms_lilola_product.xlsx",
+        "source": "Lilola",
+        "importMethod": "new",
+        "originalFilename": "pms_lilola_product.xlsx"
+      },
+      "source": "Lilola",
+      "importMethod": "new"
+    }
+  },
+  "importProduct-update": {
+    "TC": "importProduct",
+    "testData": {
+      "fileInfo": {
+        "internalFilename": "pms_lilola_product.xlsx",
+        "source": "Lilola",
+        "importMethod": "update",
+        "originalFilename": "pms_lilola_product.xlsx"
+      },
+      "source": "Lilola",
+      "importMethod": "update"
+    }
+  },
+  "getUserPermissionData": {
+    "TC": "getUserPermissionData",
+    "testData": {
+      "appCode": "pms"
+    }
+  },
+  "getProductPageList": {
+    "TC": "getProductPageList",
+    "testData": {
+      "current": 1,
+      "keyword": "",
+      "pageSize": 20,
+      "productStatus": "",
+      "sources": []
+    }
+  },
+  "getUserPermissionData_1": {
+    "TC": "getUserPermissionData_1",
+    "testData": {
+      "appCode": "pms",
+      "type": 2
+    }
+  },
+  "upload_s3_pms_cost": {
+    "TC": "upload_s3_pms_cost",
+    "testData": {
+      "file_name": "pms_lilola_cost.xlsx",
+      "bucket": "noviland-pms-test",
+      "region": "us-west-1",
+      "key_prefix": "tmp"
+    }
+  },
+  "importProductPriceCost": {
+    "TC": "importProductPriceCost",
+    "testData": {
+      "fileInfo": {
+        "internalFilename": "pms_lilola_cost.xlsx",
+        "source": "Lilola",
+        "type": "cost",
+        "effectiveDate": "2026-08-02 00:00:00",
+        "originalFilename": "pms_lilola_cost.xlsx"
+      },
+      "source": "Lilola"
+    }
+  },
+  "getProductPageList_2": {
+    "TC": "getProductPageList_2",
+    "testData": {
+      "current": 1,
+      "keyword": "autotest",
+      "pageSize": 20,
+      "productStatus": "",
+      "sources": []
+    }
+  },
+  "upload_s3_pms_discount": {
+    "TC": "upload_s3_pms_discount",
+    "testData": {
+      "file_name": "pms_lilola_discount.xlsx",
+      "bucket": "noviland-pms-test",
+      "region": "us-west-1",
+      "key_prefix": "tmp"
+    }
+  },
+  "importProductPriceDiscount": {
+    "TC": "importProductPriceDiscount",
+    "testData": {
+      "fileInfo": {
+        "internalFilename": "pms_lilola_discount.xlsx",
+        "source": "Lilola",
+        "type": "discount",
+        "effectiveDate": "2026-08-01 00:00:00",
+        "expiryDate": "2026-08-02 23:59:59",
+        "originalFilename": "pms_lilola_discount.xlsx"
+      },
+      "source": "Lilola"
+    }
+  },
+  "getProductPageList_3": {
+    "TC": "getProductPageList_3",
+    "testData": {
+      "current": 1,
+      "keyword": "autotest",
+      "pageSize": 20,
+      "productStatus": "",
+      "sources": []
+    }
+  },
+  "getProductPrice": {
+    "TC": "getProductPrice",
+    "testData": {
+      "productId": "&{orderid}"
+    }
+  },
+  "getDetail": {
+    "TC": "getDetail",
+    "testData": {
+      "productId": "&{orderid}"
+    }
+  },
+  "queryProductPriceHistory": {
+    "TC": "queryProductPriceHistory",
+    "testData": {
+      "current": 1,
+      "pageSize": 999999999,
+      "productId": "&{orderid}"
+    }
+  },
+  "updateProductStatus": {
+    "TC": "updateProductStatus",
+    "testData": {
+      "productIds": [
+        "&{orderid}"
+      ],
+      "productStatus": "active",
+      "novProductIds": [
+        "&{novilandProductId}"
+      ]
+    }
+  },
+  "getProductPageList_5": {
+    "TC": "getProductPageList_5",
+    "testData": {
+      "current": 1,
+      "keyword": "autotest",
+      "pageSize": 20,
+      "productStatus": "",
+      "sources": []
+    }
+  },
+  "updateProduct": {
+    "TC": "updateProduct",
+    "testData": {
+      "productId": "&{orderid}",
+      "novilandProductId": "&{novilandProductId}",
+      "sku": "autotest",
+      "category": "test1",
+      "productName": "test1",
+      "productFactorys": "test-factory",
+      "storeCode": "",
+      "storeName": "",
+      "productStatus": "active",
+      "source": "Lilola",
+      "upc": "",
+      "wayfairSku": "",
+      "amazonSku": "",
+      "placeOfOrigin": "",
+      "color": "",
+      "material": "",
+      "filler": "",
+      "customized": "No",
+      "ltlProduct": "No",
+      "dangerousGoods": "Non",
+      "notAvailableForSaleOn": "",
+      "sellerType": "",
+      "currencyCode": "",
+      "asin": "",
+      "comboProduct": "Yes",
+      "description": "",
+      "productSpec": {
+        "productId": "&{orderid}",
+        "assembledLength": "2.00",
+        "assembledWidth": "2.00",
+        "assembledHeight": "2.00",
+        "chargeableWeight": "2.00",
+        "sizeUnit": "inch",
+        "weightUnit": "pound",
+        "unitPrice": "",
+        "discountedUnitPrice": "",
+        "map": "",
+        "pickupFulfillmentPerUnit": "",
+        "pickupTotalCost": "",
+        "pickupTotalCostAfterDiscount": ""
+      },
+      "productFeatures": [],
+      "productCombos": [
+        [
+          {
+            "type": "",
+            "value": {
+              "key": null,
+              "ref": null,
+              "props": {
+                "id": "Package",
+                "values": {
+                  "index": 1
+                }
+              },
+              "_owner": null
+            },
+            "label": ""
+          },
+          {
+            "type": "Input",
+            "value": "test sku BOX1",
+            "label": "subitemSKU"
+          },
+          {
+            "type": "Input",
+            "value": 1,
+            "label": "packageQuantity"
+          },
+          {
+            "type": "Input",
+            "value": "0.00",
+            "label": "length"
+          },
+          {
+            "type": "Input",
+            "value": "0.00",
+            "label": "width"
+          },
+          {
+            "type": "Input",
+            "value": "0.00",
+            "label": "height"
+          },
+          {
+            "type": "Select",
+            "value": "inch",
+            "optionValue": "inch",
+            "label": "sizeUnit"
+          },
+          {
+            "type": "Input",
+            "value": null,
+            "label": "weight"
+          },
+          {
+            "type": "Select",
+            "optionValue": "pound",
+            "value": "pound",
+            "label": "weightUnit"
+          }
+        ]
+      ],
+      "productFiles": []
+    }
+  },
+  "getDetail_2": {
+    "TC": "getDetail_2",
+    "testData": {
+      "productId": "&{orderid}"
+    }
+  },
+  "getProductBundlePageList": {
+    "TC": "getProductBundlePageList",
+    "testData": {
+      "current": 1,
+      "keyword": "",
+      "pageSize": 20,
+      "orderStatus": [],
+      "creationTime": null,
+      "carrierId": []
+    }
+  },
+  "verifyBundle": {
+    "TC": "verifyBundle",
+    "testData": {
+      "bundleSku": "autotestzhp"
+    }
+  },
+  "getActiveProductsBySku": {
+    "TC": "getActiveProductsBySku",
+    "testData": {
+      "sku": "autotest"
+    }
+  },
+  "createBundle": {
+    "TC": "createBundle",
+    "testData": {
+      "bundleSku": "autotestzhp",
+      "bundleName": "autotestzhp",
+      "skuList": [
+        {
+          "sku": "&{sku}",
+          "productId": "&{productId}",
+          "source": "&{source}",
+          "skuName": "",
+          "productName": "&{productName}",
+          "skuNum": 1
+        }
+      ]
+    }
+  },
+  "getProductBundlePageList_1": {
+    "TC": "getProductBundlePageList_1",
+    "testData": {
+      "current": 1,
+      "keyword": "",
+      "pageSize": 20,
+      "orderStatus": [],
+      "creationTime": null,
+      "carrierId": []
+    }
+  },
+  "getBundleDetail": {
+    "TC": "getBundleDetail",
+    "testData": {
+      "bundleSku": "autotestzhp"
+    }
+  },
+  "updateBundle": {
+    "TC": "updateBundle",
+    "testData": {
+      "bundleSku": "autotestzhp",
+      "bundleName": "autotestzhp",
+      "skuList": [
+        {
+          "productId": "&{productId}",
+          "sku": "&{sku}",
+          "productName": "&{productName}",
+          "source": "&{source}",
+          "skuNum": 2,
+          "rowId": "37"
+        }
+      ]
+    }
+  },
+  "deleteBundle": {
+    "TC": "deleteBundle",
+    "testData": {
+      "bundleSku": "autotestzhp"
+    }
+  },
+  "getProductBundlePageList_4": {
+    "TC": "getProductBundlePageList_4",
+    "testData": {
+      "current": 1,
+      "keyword": "autotest",
+      "pageSize": 20,
+      "orderStatus": [],
+      "creationTime": null,
+      "carrierId": []
+    }
+  }
+}

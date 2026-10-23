@@ -1,0 +1,268 @@
+{
+  "listInventory": {
+    "TC": "listInventory",
+    "testData": {
+      "current": 1,
+      "keyword": "autotest",
+      "pageSize": 20,
+      "orderStatus": [],
+      "creationTime": null,
+      "carrierId": [],
+      "sourceIds": []
+    }
+  },
+  "getInventoryDetail": {
+    "TC": "getInventoryDetail",
+    "testData": {
+      "inventoryUuid": "&{inventoryUuid}"
+    }
+  },
+  "inventoryList": {
+    "TC": "inventoryList",
+    "testData": {
+      "keyword": "Lilola-CA",
+      "sourceId": 11,
+      "skuInventoryId": "&{skuInventoryId}"
+    }
+  },
+  "addSkuAssosiatedWarehouse": {
+    "TC": "addSkuAssosiatedWarehouse",
+    "testData": {
+      "warehouseId": "&{warehouseId}",
+      "skuInventoryId": "&{skuInventoryId}"
+    }
+  },
+  "manualSyncInventory": {
+    "TC": "manualSyncInventory",
+    "testData": {
+      "skuIds": [
+        "&{skuInventoryId}"
+      ]
+    }
+  },
+  "listSource": {
+    "TC": "listSource",
+    "testData": {
+      "syncType": "file"
+    }
+  },
+    "wms_s3_upload": {
+    "TC": "wms_s3_upload",
+    "testData": {
+      "file_name": "wms_lilola_inventory.xlsx",
+      "bucket": "noviland-wms-test",
+      "region": "us-west-1",
+      "key_prefix": "tmp"
+    }
+  },
+  "importInventory": {
+    "TC": "importInventory",
+    "testData": {
+      "sourceId": 11,
+      "dataSourceId": 6,
+      "fileName": "wms_lilola_inventory.xlsx"
+    }
+  },
+  "listInventoryDistributionStatement": {
+    "TC": "listInventoryDistributionStatement",
+    "testData": {
+      "current": 1,
+      "pageSize": 10,
+      "skuInventoryDistributionId": "&{skuInventoryDistributionId}"
+    }
+  },
+  "deleteSkuAssosiatedWarehouse": {
+    "TC": "deleteSkuAssosiatedWarehouse",
+    "testData": {
+      "skuInventoryDistributionId": "&{skuInventoryDistributionId}"
+    }
+  },
+  "bulkAssignWarehouse": {
+    "TC": "bulkAssignWarehouse",
+    "testData": {
+      "skuInventoryIds": [
+        "&{skuInventoryId}"
+      ]
+    }
+  },
+
+
+
+  "pageWarehouse": {
+    "TC": "pageWarehouse",
+    "testData": {
+      "current": 1,
+      "keyword": "",
+      "pageSize": 20,
+      "orderStatus": [],
+      "creationTime": null,
+      "carrierId": []
+    }
+  },
+  "checkWarehouseCode": {
+    "TC": "checkWarehouseCode",
+    "testData": {
+      "warehouseCode": "autotest"
+    }
+  },
+  "checkWarehouseName": {
+    "TC": "checkWarehouseName",
+    "testData": {
+      "warehouseName": "autotest"
+    }
+  },
+  "checkSourceWarehouseCode": {
+    "TC": "checkSourceWarehouseCode",
+    "testData": {
+      "sourceWarehouseCode": "autotest",
+      "dataSourceId": 6
+    }
+  },
+  "checkSourceWarehouseName": {
+    "TC": "checkSourceWarehouseName",
+    "testData": {
+      "sourceWarehouseName": "autotest",
+      "dataSourceId": 6
+    }
+  },
+  "addWarehouse": {
+    "TC": "addWarehouse",
+    "testData": {
+      "warehouseCode": "autotest",
+      "warehouseName": "autotest",
+      "sourceWarehouseCode": "autotest",
+      "sourceWarehouseName": "autotest",
+      "dataSourceId": 6,
+      "address1": "autotest",
+      "address2": "autotest",
+      "zipCode": "30301",
+      "contactName": "autotest",
+      "contactPhone": "88888888"
+    }
+  },
+  "pageWarehouse_2": {
+    "TC": "pageWarehouse_2",
+    "testData": {
+      "current": 1,
+      "keyword": "autotest",
+      "pageSize": 20,
+      "orderStatus": [],
+      "creationTime": null,
+      "carrierId": []
+    }
+  },
+  "queryWarehouse": {
+    "TC": "queryWarehouse",
+    "testData": {
+      "warehouseCode": "autotest"
+    }
+  },
+  "editWarehouse": {
+    "TC": "editWarehouse",
+    "testData": {
+      "id": "&{warehouseid}",
+      "sourceWarehouseId": "&{sourceWarehouseId}",
+      "warehouseCode": "autotest",
+      "warehouseName": "autotest",
+      "sourceWarehouseCode": "autotest",
+      "sourceWarehouseName": "autotest",
+      "dataSourceId": 6,
+      "address1": "autotest",
+      "address2": "autotest",
+      "zipCode": "30301",
+      "contactName": "autotest",
+      "contactPhone": "7777777",
+      "contactEmail": ""
+    }
+  },
+  "pageWarehouse_3": {
+    "TC": "pageWarehouse_3",
+    "testData": {
+      "current": 1,
+      "keyword": "autotest",
+      "pageSize": 20,
+      "orderStatus": [],
+      "creationTime": null,
+      "carrierId": []
+    }
+  },
+  "deleteWarehouse": {
+    "TC": "deleteWarehouse",
+    "testData": {
+      "id": "&{warehouseid}"
+    }
+  },
+  "pageWarehouse_4": {
+    "TC": "pageWarehouse_4",
+    "testData": {
+      "current": 1,
+      "keyword": "autotest",
+      "pageSize": 20,
+      "orderStatus": [],
+      "creationTime": null,
+      "carrierId": []
+    }
+  },
+  "warehouse": {
+    "TC": "warehouse",
+    "testData": {
+      "current": 1,
+      "keyword": "",
+      "pageSize": 20,
+      "orderStatus": [],
+      "creationTime": null,
+      "carrierId": [],
+      "sourceIds": []
+    }
+  },
+  "warehouse_3": {
+    "TC": "warehouse_3",
+    "testData": {
+      "current": 1,
+      "keyword": "autotest",
+      "pageSize": 20,
+      "orderStatus": [],
+      "creationTime": null,
+      "carrierId": [],
+      "sourceIds": []
+    }
+  },
+  "warehouse_4": {
+    "TC": "warehouse_4",
+    "testData": {
+      "current": 1,
+      "keyword": "autotest",
+      "pageSize": 20,
+      "orderStatus": [],
+      "creationTime": null,
+      "carrierId": [],
+      "sourceIds": [],
+      "total": 3,
+      "showSizeChanger": true,
+      "warehouseCode": null,
+      "sourceCode": [
+        "Lilola"
+      ]
+    }
+  },
+  "warehouse_5": {
+    "TC": "warehouse_5",
+    "testData": {
+      "current": 1,
+      "keyword": "autotest",
+      "pageSize": 20,
+      "orderStatus": [],
+      "creationTime": null,
+      "carrierId": [],
+      "sourceIds": [],
+      "total": 3,
+      "showSizeChanger": true,
+      "warehouseCode": [
+        "Lilola-CA"
+      ],
+      "sourceCode": [
+        "Lilola"
+      ]
+    }
+  }
+}

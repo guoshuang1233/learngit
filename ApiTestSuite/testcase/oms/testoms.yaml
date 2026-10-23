@@ -1,0 +1,369 @@
+- case_name: fetchImportChannel
+  markers: [oms]
+  url_prefix: base_url
+  url: api-oms/app/order/order/fetchImportChannel
+  method: GET
+  data_method:
+  is_header: '&{SuperAdmin_token}'
+  deal_data:
+  request_data:
+  sql:
+  validate:
+    - contains: [ 'res', 'Noviland' ]
+  output:
+
+- case_name: upload_s3_file
+  markers: [oms]
+  url_prefix: s3_url
+  url: "&{key_prefix}/&{file_name}"
+  method: put
+  data_method: data
+  is_header:  _s3_headers
+  deal_data: true
+  request_data: testoms:s3_upload
+  sql:
+  validate:
+  output:
+
+
+- case_name: parse-order-excel
+  markers: [oms]
+  url_prefix: base_url
+  url: api-oms/app/order/order/parse-order-excel
+  method: POST
+  data_method: data
+  is_header: '&{SuperAdmin_token}'
+  deal_data: True
+  request_data: testoms:parse-order-excel
+  sql:
+  validate:
+    - contains: [ 'res', 'success' ]
+  output:
+
+- case_name: query-orders
+  markers: [oms]
+  url_prefix: base_url
+  url: api-oms/app/order/order/query-orders
+  method: POST
+  data_method: json
+  is_header: '&{SuperAdmin_token}'
+  deal_data:
+  request_data: testoms:query-orders
+  sql:
+  validate:
+    - contains: [ 'res', 'success' ]
+    - contains: [ 'res', 'channelOrderId' ]
+  output:
+    id: data.orders.[0].id
+    uuid: data.orders.[0].uuid
+    skuid: data.orders.[0].skus.[0].id
+
+- case_name: query-order-detail
+  markers: [oms]
+  url_prefix: base_url
+  url: api-oms/app/order/order/query-order-detail
+  method: POST
+  data_method: json
+  is_header: '&{SuperAdmin_token}'
+  deal_data:
+  request_data: testoms:query-order-detail
+  sql:
+  validate:
+    - contains: [ 'res', 'success' ]
+    - contains: [ 'res', 'channelOrderId' ]
+  output:
+    createTime: data.createTime
+    supplier: data.skus.[0].supplier.[0]
+    channelOrderId: data.channelOrderId
+    addressid: data.address.id
+    skuuuid: data.skus.[0].skuUuid
+
+- case_name: query-order-packages
+  markers: [oms]
+  url_prefix: base_url
+  url: api-oms/app/order/order/query-order-packages
+  method: POST
+  data_method: json
+  is_header: '&{SuperAdmin_token}'
+  deal_data:
+  request_data: testoms:query-order-packages
+  sql:
+  validate:
+    - contains: [ 'res', 'success' ]
+  output:
+
+- case_name: fetchSalesChannel
+  markers: [oms]
+  url_prefix: base_url
+  url: api-oms/app/order/order/fetchSalesChannel
+  method: GET
+  data_method:
+  is_header: '&{SuperAdmin_token}'
+  deal_data:
+  request_data:
+  sql:
+  validate:
+    - contains: [ 'res', 'success' ]
+    - contains: [ 'res', 'Prestocked' ]
+  output:
+
+- case_name: update-sku-supplier
+  markers: [oms]
+  url_prefix: base_url
+  url: api-oms/app/order/order/update-sku-supplier
+  method: POST
+  data_method: json
+  is_header: '&{SuperAdmin_token}'
+  deal_data:
+  request_data: testoms:update-sku-supplier
+  sql:
+  validate:
+    - contains: [ 'res', 'success' ]
+    - contains: [ 'res', 'skuUuid' ]
+  output:
+
+- case_name: fetchShipMethodOption
+  markers: [oms]
+  url_prefix: base_url
+  url: api-oms/app/order/order/fetchShipMethodOption
+  method: GET
+  data_method:
+  is_header: '&{SuperAdmin_token}'
+  deal_data:
+  request_data:
+  sql:
+  validate:
+    - contains: [ 'res', 'success' ]
+    - contains: [ 'res', 'FedEx' ]
+  output:
+
+
+- case_name: update-order
+  markers: [oms]
+  url_prefix: base_url
+  url: api-oms/app/order/order/update-order
+  method: POST
+  data_method: json
+  is_header: '&{SuperAdmin_token}'
+  deal_data: true
+  request_data: testoms:update-order
+  sql:
+  validate:
+    - contains: [ 'res', 'success' ]
+  output:
+
+- case_name: query-order-detail
+  markers: [oms]
+  url_prefix: base_url
+  url: api-oms/app/order/order/query-order-detail
+  method: POST
+  data_method: json
+  is_header: '&{SuperAdmin_token}'
+  deal_data:
+  request_data: testoms:query-order-detail
+  sql:
+  validate:
+    - contains: [ 'res', 'success' ]
+    - contains: [ 'res', 'update line2' ]
+  output:
+
+- case_name: fetchExportSupplier
+  markers: [oms]
+  url_prefix: base_url
+  url: api-oms/app/order/order/fetchExportSupplier
+  method: GET
+  data_method:
+  is_header: '&{SuperAdmin_token}'
+  deal_data:
+  request_data:
+  sql:
+  validate:
+    - contains: [ 'res', 'success' ]
+    - contains: [ 'res', 'Furinno' ]
+  output:
+
+- case_name: fetchTrackStatusOp
+  markers: [oms]
+  url_prefix: base_url
+  url: api-oms/app/order/order/fetchTrackStatusOp
+  method: GET
+  data_method:
+  is_header: '&{SuperAdmin_token}'
+  deal_data:
+  request_data:
+  sql:
+  validate:
+    - contains: [ 'res', 'success' ]
+    - contains: [ 'res', 'NotFound' ]
+  output:
+
+- case_name: supplier-add-notes
+  markers: [oms]
+  url_prefix: base_url
+  url: api-oms/app/order/order/supplier-add-notes
+  method: POST
+  data_method: json
+  is_header: '&{SuperAdmin_token}'
+  deal_data:
+  request_data: testoms:supplier-add-notes
+  sql:
+  validate:
+    - contains: [ 'res', 'success' ]
+  output:
+
+- case_name: downloadOrderByIds
+  markers: [oms]
+  url_prefix: base_url
+  url: api-oms/app/order/order/downloadOrderByIds
+  method: POST
+  data_method: json
+  is_header: '&{SuperAdmin_token}'
+  deal_data:
+  request_data: testoms:downloadOrderByIds
+  sql:
+  validate:
+    - contains: [ 'res', 'downloadUrl' ]
+  output:
+
+- case_name: batchSimulationTrial
+  markers: [oms]
+  url_prefix: base_url
+  url: api-oms/app/order/order/batchSimulationTrial
+  method: POST
+  data_method: json
+  is_header: '&{SuperAdmin_token}'
+  deal_data:
+  request_data: testoms:batchSimulationTrial
+  sql:
+  validate:
+    - contains: [ 'res', xlsx ]
+  output:
+
+- case_name: downloadLogisOrders
+  markers: [oms]
+  url_prefix: base_url
+  url: api-oms/app/order/order/downloadLogisOrders
+  method: POST
+  data_method: json
+  is_header: '&{SuperAdmin_token}'
+  deal_data:
+  request_data: testoms:downloadLogisOrders
+  sql:
+  validate:
+  output:
+
+- case_name: submit-order-simulation
+  markers: [oms]
+  url_prefix: base_url
+  url: api-oms/app/order/order/submit-order-simulation
+  method: POST
+  data_method: json
+  is_header: '&{SuperAdmin_token}'
+  deal_data:
+  request_data: testoms:submit-order-simulation
+  sql:
+  validate:
+    - contains: [ 'res', 'success' ]
+  output:
+
+# pms 替换
+- case_name: create-order-packages
+  markers: [oms]
+  url_prefix: base_url
+  url: api-oms/app/order/order/create-order-packages
+  method: POST
+  data_method: json
+  is_header: '&{SuperAdmin_token}'
+  deal_data:
+  request_data: testoms:create-order-packages
+  sql:
+  validate:
+    - contains: [ 'res', 'create shipments success' ]
+  output:
+
+- case_name: query-order-detail_4
+  markers: [oms]
+  url_prefix: base_url
+  url: api-oms/app/order/order/query-order-detail
+  method: POST
+  data_method: json
+  is_header: '&{SuperAdmin_token}'
+  deal_data:
+  request_data: testoms:query-order-detail_4
+  sql:
+  validate:
+    - contains: [ 'res', 'trackingNumber' ]
+  output:
+
+- case_name: query-order-packages_3
+  markers: [oms]
+  url_prefix: base_url
+  url: api-oms/app/order/order/query-order-packages
+  method: POST
+  data_method: json
+  is_header: '&{SuperAdmin_token}'
+  deal_data:
+  request_data: testoms:query-order-packages_3
+  sql:
+  validate:
+    - contains: [ 'res', 'tmsOrderNo' ]
+  output:
+
+- case_name: update-order-packages
+  markers: [oms]
+  url_prefix: base_url
+  url: api-oms/app/order/order/update-order-packages
+  method: POST
+  data_method: json
+  is_header: '&{SuperAdmin_token}'
+  deal_data:
+  request_data: testoms:update-order-packages
+  sql:
+  validate:
+    - contains: [ 'res', 'tmsOrderNo' ]
+  output:
+
+#时间特殊处理
+- case_name: export-pushable-order
+  markers: [oms]
+  url_prefix: base_url
+  url: api-oms/app/order/order/export-pushable-order
+  method: POST
+  data_method: json
+  is_header: '&{SuperAdmin_token}'
+  deal_data:
+  request_data: testoms:export-pushable-order
+  sql:
+  validate:
+    - contains: [ 'res', 'filename' ]
+  output:
+
+- case_name: markOrderPushedProgress
+  markers: [oms]
+  url_prefix: base_url
+  url: api-oms/app/order/order/markOrderPushedProgress
+  method: POST
+  data_method: json
+  is_header: '&{SuperAdmin_token}'
+  deal_data:
+  request_data: testoms:markOrderPushedProgress
+  sql:
+  validate:
+    - contains: [ 'res', 'success' ]
+  output:
+    taskId: data
+
+#- case_name: getProgress
+#  markers: [oms]
+#  url_prefix: base_url
+#  url: api-oms/app/order/order/getProgress
+#  method: GET
+#  data_method: params
+#  is_header: '&{SuperAdmin_token}'
+#  deal_data:
+#  request_data: testoms:getProgress
+#  sql:
+#  validate:
+#    - contains: [ 'res', 'success' ]
+#  output:
+
